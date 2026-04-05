@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>受注一覧 — sola</title>
+<link rel="stylesheet" href="/assets/sola.css">
+</head>
+<body>
+<div id="sola-header"></div>
+<script src="/assets/sola-common.js"></script>
+<script>renderSolaHeader();</script>
+
+<main class="sola-page">
+  <div class="sola-page-head">
+    <div class="sola-page-title">受注一覧</div>
+    <button class="sola-btn sola-btn-primary">＋ 新規受注</button>
+  </div>
+
+  <div class="sola-filter">
+    <div class="sola-filter-field">
+      <label>ステータス</label>
+      <select id="f-status" oninput="filter()">
+        <option value="">すべて</option>
+        <option>受注確定</option>
+        <option>着工中</option>
+        <option>完了</option>
+        <option>キャンセル</option>
+      </select>
+    </div>
+    <div class="sola-filter-field">
+      <label>顧客名</label>
+      <input type="text" id="f-customer" placeholder="例：田中" oninput="filter()">
+    </div>
+    <div class="sola-filter-field">
+      <label>現場名</label>
+      <input type="text" id="f-site" placeholder="例：内装" oninput="filter()">
+    </div>
+    <div class="sola-filter-field">
+      <label>担当者</label>
+      <select id="f-user" oninput="filter()">
+        <option value="">すべて</option>
+        <option>西川 公大</option>
+        <option>山田 太郎</option>
+        <option>鈴木 次郎</option>
+        <option>田村 花子</option>
+      </select>
+    </div>
+    <div class="sola-filter-actions">
+      <button class="sola-btn sola-btn-secondary" onclick="resetFilter()">リセット</button>
+      <button class="sola-btn sola-btn-primary">検索する</button>
+    </div>
+  </div>
+
+  <div class="sola-table-wrap">
+    <table class="sola-table">
+      <thead>
+        <tr>
+          <th style="width:110px">受注日</th>
+          <th>現場名 / 顧客</th>
+          <th style="width:120px;text-align:right">受注金額</th>
+          <th style="width:110px">ステータス</th>
+          <th style="width:140px">担当 / 更新</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+</main>
+
+<script>
+const rows = [
+  {date:'2026/02/15', site:'田中邸 内装改修工事',    customer:'田中 一郎 様',      amount:1850000, status:'着工中',     user:'山田 太郎', updated:'2026/04/04'},
+  {date:'2026/02/20', site:'住吉モデルハウス外構',   customer:'株式会社ハウスワン', amount:2400000, status:'受注確定',   user:'西川 公大', updated:'2026/03/28'},
+  {date:'2026/01/30', site:'JF新築工事 A棟',         customer:'JF株式会社',        amount:8500000, status:'着工中',     user:'西川 公大', updated:'2026/03/30'},
+  {date:'2026/01/20', site:'鈴木邸リフォーム',        customer:'鈴木 工務店',       amount:1250000, status:'着工中',     user:'鈴木 次郎', updated:'2026/03/30'},
+  {date:'2025/11/15', site:'田中邸 外壁塗装工事',     customer:'田中 一郎 様',      amount:1650000, status:'完了',       user:'鈴木 次郎', updated:'2025/07/20'},
+  {date:'2026/02/28', site:'天王寺マンション改修',   customer:'佐藤 建設株式会社', amount:3800000, status:'受注確定',   user:'田村 花子', updated:'2026/03/25'},
+  {date:'2025/12/10', site:'高橋邸 水回りリフォーム', customer:'高橋 美咲 様',      amount:720000,  status:'完了',       user:'山田 太郎', updated:'2026/02/20'},
+  {date:'2026/03/10', site:'山本邸 新築工事',         customer:'山本 三郎 様',      amount:12000000, status:'受注確定', user:'田村 花子', updated:'2026/04/01'},
+];
+
+const statusBadge = {
+  '受注確定':'info',
+  '着工中':  'warning',
+  '完了':    'success',
+  'キャンセル':'danger',
+};
+
+function fmtYen(n){ return '¥' + n.toLocaleString(); }
+
+function render(list) {
+  const tbody = document.getElementById('tbody');
+  if (list.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#9CA3AF;padding:24px">該当する受注が見つかりませんでした</td></tr>';
+    return;
+  }
+  tbody.innerHTML = list.map(r => `
+    <tr>
+      <td>${r.date}</td>
+      <td>
+        <div style="font-weight:700">${r.site}</div>
+        <div style="font-size:11px;color:#666">${r.customer}</div>
+      </td>
+      <td style="text-align:right;font-weight:700;color:#1E40AF">${fmtYen(r.amount)}</td>
+      <td><span class="sola-badge sola-badge-${statusBadge[r.status]||'neutral'}">${r.status}</span></td>
+      <td>
+        <div class="sola-cell-stack">
+          <span class="top">${r.user}</span>
+          <span class="bottom">${r.updated}</span>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function filter() {
+  const s = document.getElementById('f-status').value;
+  const c = document.getElementById('f-customer').value.toLowerCase();
+  const st = document.getElementById('f-site').value.toLowerCase();
+  const u = document.getElementById('f-user').value;
+  render(rows.filter(r =>
+    (!s || r.status === s) &&
+    (!c || r.customer.toLowerCase().includes(c)) &&
+    (!st || r.site.toLowerCase().includes(st)) &&
+    (!u || r.user === u)
+  ));
+}
+
+function resetFilter() {
+  document.getElementById('f-status').value = '';
+  document.getElementById('f-customer').value = '';
+  document.getElementById('f-site').value = '';
+  document.getElementById('f-user').value = '';
+  render(rows);
+}
+
+render(rows);
+</script>
+</body>
+</html>

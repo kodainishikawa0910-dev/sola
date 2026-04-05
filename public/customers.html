@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>顧客マスタ — sola</title>
+<link rel="stylesheet" href="/assets/sola.css">
+</head>
+<body>
+<div id="sola-header"></div>
+<script src="/assets/sola-common.js"></script>
+<script>renderSolaHeader();</script>
+<div id="app">
+<!-- 顧客一覧 -->
+<div style="padding:16px" id="p-list">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+    <div style="font-size:16px;font-weight:700;color:#111111">顧客一覧</div>
+    <button style="padding:8px 16px;font-size:12px;font-weight:700;background-color:#1D4ED8 !important;border:none;border-radius:8px;color:#ffffff !important;cursor:pointer">＋ 新規登録</button>
+  </div>
+
+  <div style="background:#ffffff;border:1px solid #E0E2E8;border-radius:12px;overflow:hidden;margin-bottom:12px">
+    <div style="display:flex;align-items:center;gap:7px;padding:10px 14px;border-bottom:1px solid #EEF0F5;background:#F8F9FB">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="5.5" cy="5.5" r="4" stroke="#555555" stroke-width="1.3"/><path d="M9 9L11.5 11.5" stroke="#555555" stroke-width="1.3" stroke-linecap="round"/></svg>
+      <span style="font-size:12px;font-weight:700;color:#333333">顧客検索</span>
+    </div>
+    <div style="padding:14px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <span style="font-size:11px;font-weight:700;color:#333333">顧客名（漢字）</span>
+          <input type="text" placeholder="例：田中" oninput="doSearch()" style="width:100% !important;padding:8px 12px !important;font-size:13px !important;border:1px solid #CCCCCC !important;border-radius:8px !important;background-color:#ffffff !important;color:#111111 !important;box-sizing:border-box !important">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <span style="font-size:11px;font-weight:700;color:#333333">顧客名（カナ）</span>
+          <input type="text" placeholder="例：タナカ" oninput="doSearch()" style="width:100% !important;padding:8px 12px !important;font-size:13px !important;border:1px solid #CCCCCC !important;border-radius:8px !important;background-color:#ffffff !important;color:#111111 !important;box-sizing:border-box !important">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <span style="font-size:11px;font-weight:700;color:#333333">住所</span>
+          <input type="text" placeholder="例：堺市南区" oninput="doSearch()" style="width:100% !important;padding:8px 12px !important;font-size:13px !important;border:1px solid #CCCCCC !important;border-radius:8px !important;background-color:#ffffff !important;color:#111111 !important;box-sizing:border-box !important">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <span style="font-size:11px;font-weight:700;color:#333333">現場名</span>
+          <input type="text" placeholder="例：田中邸改修工事" oninput="doSearch()" style="width:100% !important;padding:8px 12px !important;font-size:13px !important;border:1px solid #CCCCCC !important;border-radius:8px !important;background-color:#ffffff !important;color:#111111 !important;box-sizing:border-box !important">
+        </div>
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:8px">
+        <button onclick="resetSearch()" style="padding:9px 20px;font-size:12px;font-weight:700;color:#222222 !important;background-color:#D1D5DB !important;border:1px solid #9CA3AF;border-radius:8px;cursor:pointer">リセット</button>
+        <button style="padding:9px 24px;font-size:12px;font-weight:700;color:#ffffff !important;background-color:#1D4ED8 !important;border:none;border-radius:8px;cursor:pointer">検索する</button>
+      </div>
+      <div style="font-size:11px;color:#555555;margin-top:10px;padding-top:8px;border-top:1px solid #EEF0F5" id="sr">3件の顧客が見つかりました</div>
+    </div>
+  </div>
+
+  <div id="cardList"></div>
+</div>
+
+<!-- 顧客詳細 -->
+<div style="padding:16px;display:none" id="p-cust">
+  <div style="background:#ffffff;border:1px solid #E0E2E8;border-radius:12px;padding:16px;margin-bottom:12px">
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px">
+      <div style="width:52px;height:52px;border-radius:50%;background:#DBEAFE;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#1E40AF;flex-shrink:0">田</div>
+      <div><div style="font-size:17px;font-weight:700;color:#111111;margin-bottom:3px">田中 一郎 様</div><div style="font-size:11px;color:#555555">大阪府堺市南区〇〇町1-2-3　<span style="font-size:10px;padding:1px 7px;border-radius:8px;background:#DBEAFE;color:#1E40AF;font-weight:600">元請け</span><span style="font-size:10px;padding:1px 7px;border-radius:8px;background:#D1FAE5;color:#065F46;font-weight:600;margin-left:4px">リピーター</span><span style="font-size:10px;padding:1px 7px;border-radius:8px;background:#FEF3C7;color:#92400E;font-weight:600;margin-left:4px">VIP</span></div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px">
+      <div style="background:#F2F3F6;border:1px solid #E8E9EE;border-radius:8px;padding:9px;text-align:center"><div style="font-size:10px;color:#666666;margin-bottom:3px">工事件数</div><div style="font-size:16px;font-weight:700;color:#1E40AF">3件</div></div>
+      <div style="background:#F2F3F6;border:1px solid #E8E9EE;border-radius:8px;padding:9px;text-align:center"><div style="font-size:10px;color:#666666;margin-bottom:3px">累計受注額</div><div style="font-size:13px;font-weight:700;color:#065F46">¥4,200,000</div></div>
+      <div style="background:#F2F3F6;border:1px solid #E8E9EE;border-radius:8px;padding:9px;text-align:center"><div style="font-size:10px;color:#666666;margin-bottom:3px">最終工事</div><div style="font-size:12px;font-weight:700;color:#111111">2026/03</div></div>
+      <div style="background:#F2F3F6;border:1px solid #E8E9EE;border-radius:8px;padding:9px;text-align:center"><div style="font-size:10px;color:#666666;margin-bottom:3px">コンタクト</div><div style="font-size:16px;font-weight:700;color:#1E40AF">8回</div></div>
+    </div>
+  </div>
+
+  <div style="display:flex;background:#E8E9EE;border-radius:8px;padding:3px;gap:3px;margin-bottom:12px" id="segbar">
+    <div onclick="swC('basic',this)" style="flex:1;padding:7px;font-size:12px;font-weight:700;text-align:center;border-radius:6px;cursor:pointer;background:#ffffff;color:#111111;border:1px solid #D0D3DC" class="seg">基本情報</div>
+    <div onclick="swC('koji',this)" style="flex:1;padding:7px;font-size:12px;font-weight:700;text-align:center;border-radius:6px;cursor:pointer;color:#666666" class="seg">工事履歴</div>
+    <div onclick="swC('contact',this)" style="flex:1;padding:7px;font-size:12px;font-weight:700;text-align:center;border-radius:6px;cursor:pointer;color:#666666" class="seg">コンタクト履歴</div>
+  </div>
+
+  <div id="ct-basic">
+    <div style="background:#F8F9FB;border:1px solid #E0E2E8;border-radius:8px;padding:4px 14px;margin-bottom:12px">
+      <div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid #EEF0F5;font-size:12px"><span style="width:90px;color:#666666;font-size:11px;flex-shrink:0;padding-top:1px">電話番号</span><span style="color:#1D4ED8">090-XXXX-XXXX</span></div>
+      <div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid #EEF0F5;font-size:12px"><span style="width:90px;color:#666666;font-size:11px;flex-shrink:0;padding-top:1px">メール</span><span style="color:#1D4ED8">tanaka@example.com</span></div>
+      <div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid #EEF0F5;font-size:12px"><span style="width:90px;color:#666666;font-size:11px;flex-shrink:0;padding-top:1px">住所</span><span style="color:#111111">〒590-XXXX　大阪府堺市南区〇〇町1-2-3</span></div>
+      <div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid #EEF0F5;font-size:12px"><span style="width:90px;color:#666666;font-size:11px;flex-shrink:0;padding-top:1px">締め日</span><span style="color:#111111">月末締め　／　入金：翌月末</span></div>
+      <div style="display:flex;gap:8px;padding:8px 0;font-size:12px"><span style="width:90px;color:#666666;font-size:11px;flex-shrink:0;padding-top:1px">請求出力単位</span><span style="color:#111111">工事単位</span></div>
+    </div>
+    <div style="background:#FFFBF0;border:1px solid #F6D860;border-radius:8px;padding:13px 14px">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="#D97706" stroke-width="1.2"/><path d="M8 5v4" stroke="#D97706" stroke-width="1.4" stroke-linecap="round"/><circle cx="8" cy="11.5" r="0.8" fill="#D97706"/></svg>
+        <span style="font-size:11px;font-weight:700;color:#92400E">注意事項・気づき</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:#78350F;line-height:1.5"><div style="width:5px;height:5px;border-radius:50%;background:#D97706;flex-shrink:0;margin-top:5px"></div><div>平日午前中連絡可。夕方以降はメール推奨。</div></div>
+        <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:#78350F;line-height:1.5"><div style="width:5px;height:5px;border-radius:50%;background:#D97706;flex-shrink:0;margin-top:5px"></div><div>丁寧な仕上がりを重視。追加工事の相談も多い。</div></div>
+        <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:#78350F;line-height:1.5"><div style="width:5px;height:5px;border-radius:50%;background:#D97706;flex-shrink:0;margin-top:5px"></div><div>紹介で西本邸・山本邸にもつながっている。</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:4px;margin-top:9px;padding-top:8px;border-top:1px solid #F6D860;cursor:pointer;font-size:11px;color:#B45309">
+        <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M5.5 2v7M2 5.5h7" stroke="#B45309" stroke-width="1.2" stroke-linecap="round"/></svg>
+        <span>注意事項を追加する</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="ct-koji" style="display:none">
+    <div onclick="go('scene')" style="background:#ffffff;border:1.5px solid #3B82F6;border-radius:10px;padding:11px 14px;margin-bottom:8px;cursor:pointer">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:5px;gap:8px"><span style="font-size:13px;font-weight:700;color:#1D4ED8">田中邸 内装改修工事</span><span style="font-size:13px;font-weight:700;color:#111111;flex-shrink:0">¥1,850,000</span></div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:11px;color:#555555"><span style="display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;background:#FEE2E2;color:#991B1B">工期遅延</span><span>2026/03〜</span><span>担当：山田</span><span style="color:#1D4ED8;font-size:10px">→ 現場詳細へ</span></div>
+    </div>
+    <div style="background:#ffffff;border:1px solid #E0E2E8;border-radius:10px;padding:11px 14px;margin-bottom:8px;cursor:pointer">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:5px;gap:8px"><span style="font-size:13px;font-weight:700;color:#1D4ED8">田中邸 外壁塗装工事</span><span style="font-size:13px;font-weight:700;color:#111111;flex-shrink:0">¥1,650,000</span></div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:#555555"><span style="display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;background:#F3F4F6;color:#6B7280">完了</span><span>2025/06〜07</span><span>担当：鈴木</span></div>
+    </div>
+    <div style="background:#ffffff;border:1px solid #E0E2E8;border-radius:10px;padding:11px 14px;margin-bottom:8px;cursor:pointer">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:5px;gap:8px"><span style="font-size:13px;font-weight:700;color:#1D4ED8">田中邸 水回りリフォーム</span><span style="font-size:13px;font-weight:700;color:#111111;flex-shrink:0">¥700,000</span></div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:#555555"><span style="display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;background:#F3F4F6;color:#6B7280">完了</span><span>2024/11</span><span>担当：山田</span></div>
+    </div>
+    <div style="background:#ffffff;border:1px solid #E0E2E8;border-radius:10px;padding:11px 14px;margin-bottom:8px;cursor:pointer">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:5px;gap:8px"><span style="font-size:13px;font-weight:700;color:#1D4ED8">田中邸 外構リフォーム</span><span style="font-size:13px;font-weight:700;color:#111111;flex-shrink:0">—</span></div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:#555555"><span style="display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;background:#F3F4F6;color:#374151">見積依頼中</span><span>2026/04〜</span><span>担当：西川</span></div>
+    </div>
+    <button onclick="go('mitumori')" style="width:100%;padding:11px;font-size:12px;font-weight:700;background-color:#F0FDF4 !important;border:1.5px dashed #86EFAC;border-radius:10px;color:#166534 !important;cursor:pointer;margin-top:4px">＋ 新規工事を登録（見積依頼へ）</button>
+  </div>
+
+  <div id="ct-contact" style="display:none">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><span style="font-size:11px;font-weight:700;color:#444444">8件</span><span style="font-size:10px;color:#9CA3AF">日報登録から自動で記録</span></div>
+    <div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap">
+      <div style="padding:4px 10px;font-size:11px;font-weight:600;border:1px solid #93C5FD;border-radius:16px;background:#DBEAFE;color:#1E40AF;cursor:pointer">すべて</div>
+      <div style="padding:4px 10px;font-size:11px;font-weight:600;border:1px solid #D0D3DC;border-radius:16px;background:#ffffff;color:#444444;cursor:pointer">電話</div>
+      <div style="padding:4px 10px;font-size:11px;font-weight:600;border:1px solid #D0D3DC;border-radius:16px;background:#ffffff;color:#444444;cursor:pointer">メール</div>
+      <div style="padding:4px 10px;font-size:11px;font-weight:600;border:1px solid #D0D3DC;border-radius:16px;background:#ffffff;color:#444444;cursor:pointer">訪問</div>
+      <div style="padding:4px 10px;font-size:11px;font-weight:600;border:1px solid #D0D3DC;border-radius:16px;background:#ffffff;color:#444444;cursor:pointer">内装改修工事</div>
+      <div style="padding:4px 10px;font-size:11px;font-weight:600;border:1px solid #D0D3DC;border-radius:16px;background:#ffffff;color:#444444;cursor:pointer">外壁塗装工事</div>
+    </div>
+    <div style="background:#ffffff;border:1px solid #E0E2E8;border-radius:12px;padding:13px 15px;margin-bottom:8px">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;gap:8px">
+        <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap"><span style="font-size:10px;padding:2px 8px;border-radius:8px;font-weight:700;background:#DBEAFE;color:#1E40AF">電話</span><span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:2px 8px;border-radius:6px;background:#F8F9FB;border:1px solid #E0E2E8;color:#1D4ED8;font-weight:600"><span style="width:6px;height:6px;border-radius:50%;background:#EF4444;flex-shrink:0"></span>田中邸 内装改修工事</span></div>
+        <span style="font-size:11px;color:#9CA3AF;flex-shrink:0;white-space:nowrap">2026/04/03　14:30</span>
+      </div>
+      <div style="font-size:12px;color:#111111;line-height:1.6;margin-bottom:6px">工期遅延について連絡。3/25完了見込みを説明。施主了承。</div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:10px;color:#9CA3AF"><span>対応：山田 太郎</span><span style="color:#D1D5DB">／</span><span>日報より自動記録</span></div>
+    </div>
+    <div style="background:#ffffff;border:1px solid #E0E2E8;border-radius:12px;padding:13px 15px;margin-bottom:8px">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;gap:8px">
+        <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap"><span style="font-size:10px;padding:2px 8px;border-radius:8px;font-weight:700;background:#D1FAE5;color:#065F46">訪問</span><span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:2px 8px;border-radius:6px;background:#F8F9FB;border:1px solid #E0E2E8;color:#1D4ED8;font-weight:600"><span style="width:6px;height:6px;border-radius:50%;background:#EF4444;flex-shrink:0"></span>田中邸 内装改修工事</span></div>
+        <span style="font-size:11px;color:#9CA3AF;flex-shrink:0;white-space:nowrap">2026/03/20　10:00</span>
+      </div>
+      <div style="font-size:12px;color:#111111;line-height:1.6;margin-bottom:6px">現場確認。下地補修について施主に説明・承認。追加費用なし。</div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:10px;color:#9CA3AF"><span>対応：山田 太郎</span><span style="color:#D1D5DB">／</span><span>日報より自動記録</span></div>
+    </div>
+    <div style="background:#ffffff;border:1px solid #E0E2E8;border-radius:12px;padding:13px 15px;margin-bottom:8px">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;gap:8px">
+        <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap"><span style="font-size:10px;padding:2px 8px;border-radius:8px;font-weight:700;background:#16A34A;color:#ffffff">電話</span><span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:2px 8px;border-radius:6px;background:#F8F9FB;border:1px solid #E0E2E8;color:#1D4ED8;font-weight:600"><span style="width:6px;height:6px;border-radius:50%;background:#16A34A;flex-shrink:0"></span>田中邸 外壁塗装工事</span></div>
+        <span style="font-size:11px;color:#9CA3AF;flex-shrink:0;white-space:nowrap">2025/07/05　11:00</span>
+      </div>
+      <div style="font-size:12px;color:#111111;line-height:1.6;margin-bottom:6px">工事完了の最終確認。施主より仕上がりに満足との返答。</div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:10px;color:#9CA3AF"><span>対応：鈴木 次郎</span><span style="color:#D1D5DB">／</span><span>日報より自動記録</span></div>
+    </div>
+    <div style="font-size:11px;color:#555555;padding:8px 12px;background:#F8F9FB;border:1px solid #E0E2E8;border-radius:8px;margin-top:4px">コンタクト履歴は日報登録から自動で記録されます</div>
+  </div>
+</div>
+
+<!-- 現場詳細 -->
+<div style="padding:16px;display:none" id="p-scene">
+  <div style="background:#ffffff;border:1px solid #E0E2E8;border-radius:12px;padding:13px 16px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+    <div><div style="font-size:15px;font-weight:700;color:#111111;margin-bottom:3px">田中邸 内装改修工事</div><div style="font-size:11px;color:#555555">見積ID: 2025-0312　／　顧客: 田中 一郎 様</div></div>
+    <div style="display:inline-flex;align-items:center;gap:5px;font-size:11px;padding:4px 11px;border-radius:10px;background:#EDE9FE;border:1px solid #C4B5FD;color:#4C1D95;font-weight:700">DW連携済　着工中</div>
+  </div>
+  <div style="background:#ffffff;border:1px solid #E0E2E8;border-radius:12px;overflow:hidden">
+    <div style="display:flex;border-bottom:1px solid #E0E2E8;background:#F8F9FB;overflow-x:auto" id="tbar">
+      <div onclick="swS('kihon',this)" style="padding:10px 14px;font-size:12px;font-weight:700;color:#1D4ED8;cursor:pointer;border-bottom:2px solid #3B82F6;margin-bottom:-1px;white-space:nowrap;flex-shrink:0;background:#ffffff" class="stab">基本情報</div>
+      <div onclick="swS('nikki',this)" style="padding:10px 14px;font-size:12px;font-weight:700;color:#666666;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;flex-shrink:0" class="stab">日報一覧</div>
+      <div onclick="swS('hattyu',this)" style="padding:10px 14px;font-size:12px;font-weight:700;color:#666666;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;flex-shrink:0" class="stab">発注一覧</div>
+      <div onclick="swS('seikyu',this)" style="padding:10px 14px;font-size:12px;font-weight:700;color:#666666;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;flex-shrink:0" class="stab">請求・入金</div>
+      <div onclick="swS('gantt',this)" style="padding:10px 14px;font-size:12px;font-weight:700;color:#666666;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;flex-shrink:0" class="stab">工程表</div>
+      <div onclick="swS('kojilog',this)" style="padding:10px 14px;font-size:12px;font-weight:700;color:#666666;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;flex-shrink:0" class="stab">工事ログ</div>
+    </div>
+    <div style="padding:14px" id="s-kihon">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+        <div style="background:#F8F9FB;border:1px solid #E8E9EE;border-radius:8px;padding:10px 12px"><div style="font-size:10px;color:#666666;margin-bottom:3px">工事種別 / 構造</div><div style="font-size:13px;font-weight:700;color:#111111">改修工事 / 木造</div></div>
+        <div style="background:#F8F9FB;border:1px solid #E8E9EE;border-radius:8px;padding:10px 12px"><div style="font-size:10px;color:#666666;margin-bottom:3px">請求区分</div><div style="font-size:13px;font-weight:700;color:#111111">完工一括</div></div>
+        <div style="background:#F8F9FB;border:1px solid #E8E9EE;border-radius:8px;padding:10px 12px"><div style="font-size:10px;color:#666666;margin-bottom:3px">工事開始日</div><div style="font-size:13px;font-weight:700;color:#111111">2026/03/01</div></div>
+        <div style="background:#F8F9FB;border:1px solid #E8E9EE;border-radius:8px;padding:10px 12px"><div style="font-size:10px;color:#666666;margin-bottom:3px">完工予定日</div><div style="font-size:13px;font-weight:700;color:#DC2626">2026/03/15（遅延中）</div></div>
+        <div style="background:#F8F9FB;border:1px solid #E8E9EE;border-radius:8px;padding:10px 12px"><div style="font-size:10px;color:#666666;margin-bottom:3px">メイン担当</div><div style="font-size:13px;font-weight:700;color:#111111">山田 太郎</div></div>
+        <div style="background:#F8F9FB;border:1px solid #E8E9EE;border-radius:8px;padding:10px 12px"><div style="font-size:10px;color:#666666;margin-bottom:3px">受注日</div><div style="font-size:13px;font-weight:700;color:#111111">2026/02/15</div></div>
+      </div>
+      <div style="font-size:11px;font-weight:700;color:#444444;margin-bottom:7px;padding-bottom:5px;border-bottom:1px solid #E8E9EE">現場住所</div>
+      <div style="font-size:12px;padding:8px 10px;background:#F8F9FB;border:1px solid #E8E9EE;border-radius:8px;margin-bottom:12px;color:#111111">大阪府堺市南区〇〇町1-2-3</div>
+      <div style="font-size:11px;font-weight:700;color:#444444;margin-bottom:7px;padding-bottom:5px;border-bottom:1px solid #E8E9EE">施主・連絡先</div>
+      <div style="background:#F8F9FB;border:1px solid #E8E9EE;border-radius:8px;padding:4px 12px">
+        <div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid #EEF0F5;font-size:12px"><span style="width:80px;color:#666666;font-size:11px;flex-shrink:0">氏名</span><span style="color:#1D4ED8;cursor:pointer" onclick="go('cust')">田中 一郎 様　→顧客マスタ</span></div>
+        <div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid #EEF0F5;font-size:12px"><span style="width:80px;color:#666666;font-size:11px;flex-shrink:0">電話番号</span><span style="color:#1D4ED8">090-XXXX-XXXX</span></div>
+        <div style="display:flex;gap:8px;padding:8px 0;font-size:12px"><span style="width:80px;color:#666666;font-size:11px;flex-shrink:0">メール</span><span style="color:#1D4ED8">tanaka@example.com</span></div>
+      </div>
+    </div>
+    <div style="padding:14px;display:none" id="s-nikki">
+      <table style="width:100%;border-collapse:collapse;font-size:12px;table-layout:fixed">
+        <thead><tr><th style="text-align:left;padding:7px 8px;color:#444444;font-weight:700;border-bottom:1px solid #E8E9EE;font-size:11px;background:#F8F9FB;width:12%">日付</th><th style="text-align:left;padding:7px 8px;color:#444444;font-weight:700;border-bottom:1px solid #E8E9EE;font-size:11px;background:#F8F9FB;width:14%">作業区分</th><th style="text-align:left;padding:7px 8px;color:#444444;font-weight:700;border-bottom:1px solid #E8E9EE;font-size:11px;background:#F8F9FB;width:50%">作業内容</th><th style="text-align:left;padding:7px 8px;color:#444444;font-weight:700;border-bottom:1px solid #E8E9EE;font-size:11px;background:#F8F9FB;width:12%">登録者</th><th style="text-align:left;padding:7px 8px;color:#444444;font-weight:700;border-bottom:1px solid #E8E9EE;font-size:11px;background:#F8F9FB;width:12%">状態</th></tr></thead>
+        <tbody>
+          <tr><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">3/20</td><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">内装</td><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">2Fクロス張り。下地補修発生。</td><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">山田</td><td style="padding:8px;border-bottom:1px solid #EEF0F5"><span style="display:inline-block;font-size:10px;padding:2px 7px;border-radius:10px;font-weight:700;background:#DBEAFE;color:#1E40AF">作業中</span></td></tr>
+          <tr><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">3/15</td><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">内装</td><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">1Fクロス張り完了。</td><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">山田</td><td style="padding:8px;border-bottom:1px solid #EEF0F5"><span style="display:inline-block;font-size:10px;padding:2px 7px;border-radius:10px;font-weight:700;background:#D1FAE5;color:#065F46">完了</span></td></tr>
+          <tr><td style="padding:8px;color:#111111">3/3</td><td style="padding:8px;color:#111111">基礎</td><td style="padding:8px;color:#111111">下地補強・防湿シート施工。</td><td style="padding:8px;color:#111111">山田</td><td style="padding:8px"><span style="display:inline-block;font-size:10px;padding:2px 7px;border-radius:10px;font-weight:700;background:#D1FAE5;color:#065F46">完了</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="padding:14px;display:none" id="s-hattyu">
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:14px">
+        <div style="background:#F8F9FB;border:1px solid #E8E9EE;border-radius:8px;padding:10px;text-align:center"><div style="font-size:10px;color:#666666;margin-bottom:4px">発注件数</div><div style="font-size:16px;font-weight:700;color:#1E40AF">4件</div></div>
+        <div style="background:#F8F9FB;border:1px solid #E8E9EE;border-radius:8px;padding:10px;text-align:center"><div style="font-size:10px;color:#666666;margin-bottom:4px">発注総額</div><div style="font-size:13px;font-weight:700;color:#111111">¥980,000</div></div>
+        <div style="background:#F8F9FB;border:1px solid #E8E9EE;border-radius:8px;padding:10px;text-align:center"><div style="font-size:10px;color:#666666;margin-bottom:4px">支払完了</div><div style="font-size:13px;font-weight:700;color:#065F46">2件</div></div>
+      </div>
+      <div style="font-size:11px;color:#444444;margin-bottom:10px">各発注をクリックすると詳細が確認できます</div>
+      <div onclick="go('hd1')" style="background:#ffffff;border:1px solid #E0E2E8;border-radius:10px;margin-bottom:10px;overflow:hidden;cursor:pointer">
+        <div style="padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:1px solid #F0F1F5"><div><div style="font-size:13px;font-weight:700;color:#111111">〇〇内装工業　<span style="font-size:10px;color:#93C5FD;font-weight:400">詳細 →</span></div><div style="font-size:11px;color:#555555;margin-top:2px">内装工事　クロス張り・下地</div></div><div style="text-align:right"><div style="font-size:13px;font-weight:700;color:#111111">¥420,000</div><span style="display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;background:#DBEAFE;color:#1E40AF">施工中</span></div></div>
+        <div style="padding:10px 14px;border-bottom:1px solid #F0F1F5"><div style="display:flex;justify-content:space-between;font-size:11px;color:#444444;margin-bottom:5px"><span>進捗 70%</span><span style="color:#D97706">下地補修のため延長中</span></div><div style="background:#EEF0F5;border-radius:4px;height:6px;overflow:hidden"><div style="height:100%;border-radius:4px;background:#3B82F6;width:70%"></div></div></div>
+        <div style="padding:10px 14px;display:grid;grid-template-columns:1fr 1fr;gap:10px;background:#F8F9FB"><div><div style="font-size:10px;color:#666666;margin-bottom:3px">発注日</div><div style="font-size:12px;font-weight:700;color:#111111">2026/02/20</div></div><div><div style="font-size:10px;color:#666666;margin-bottom:3px">作業予定</div><div style="font-size:12px;font-weight:700;color:#111111">3/1〜3/25</div></div><div><div style="font-size:10px;color:#666666;margin-bottom:3px">完了日</div><div style="font-size:12px;font-weight:700;color:#9CA3AF">未入力</div></div><div><div style="font-size:10px;color:#666666;margin-bottom:3px">支払日</div><div style="font-size:12px;font-weight:700;color:#9CA3AF">未払い</div></div></div>
+      </div>
+      <div onclick="go('hd2')" style="background:#ffffff;border:1px solid #E0E2E8;border-radius:10px;margin-bottom:10px;overflow:hidden;cursor:pointer">
+        <div style="padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:1px solid #F0F1F5"><div><div style="font-size:13px;font-weight:700;color:#111111">△△解体　<span style="font-size:10px;color:#93C5FD;font-weight:400">詳細 →</span></div><div style="font-size:11px;color:#555555;margin-top:2px">解体工事　養生・解体</div></div><div style="text-align:right"><div style="font-size:13px;font-weight:700;color:#111111">¥180,000</div><span style="display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;background:#F3F4F6;color:#374151;border:1px solid #D1D5DB">支払済</span></div></div>
+        <div style="padding:10px 14px;border-bottom:1px solid #F0F1F5"><div style="display:flex;justify-content:space-between;font-size:11px;color:#444444;margin-bottom:5px"><span>進捗 100%</span><span style="color:#065F46">作業完了・仕上がり良好</span></div><div style="background:#EEF0F5;border-radius:4px;height:6px;overflow:hidden"><div style="height:100%;border-radius:4px;background:#16A34A;width:100%"></div></div></div>
+        <div style="padding:10px 14px;display:grid;grid-template-columns:1fr 1fr;gap:10px;background:#F8F9FB"><div><div style="font-size:10px;color:#666666;margin-bottom:3px">発注日</div><div style="font-size:12px;font-weight:700;color:#111111">2026/02/20</div></div><div><div style="font-size:10px;color:#666666;margin-bottom:3px">作業期間</div><div style="font-size:12px;font-weight:700;color:#111111">3/1〜3/2</div></div><div><div style="font-size:10px;color:#666666;margin-bottom:3px">完了日</div><div style="font-size:12px;font-weight:700;color:#065F46">2026/03/02</div></div><div><div style="font-size:10px;color:#666666;margin-bottom:3px">支払日</div><div style="font-size:12px;font-weight:700;color:#065F46">2026/03/31</div></div></div>
+      </div>
+      <button style="width:100%;padding:9px;font-size:12px;font-weight:600;background-color:#F8F9FB !important;border:1px dashed #D0D3DC;border-radius:8px;color:#444444 !important;cursor:pointer">＋ 発注を追加する</button>
+    </div>
+    <div style="padding:14px;display:none" id="s-seikyu">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+        <div style="background:#F8F9FB;border:1px solid #E8E9EE;border-radius:8px;padding:10px 12px"><div style="font-size:10px;color:#666666;margin-bottom:3px">請求区分</div><div style="font-size:13px;font-weight:700;color:#111111">完工一括</div></div>
+        <div style="background:#F8F9FB;border:1px solid #E8E9EE;border-radius:8px;padding:10px 12px"><div style="font-size:10px;color:#666666;margin-bottom:3px">請求金額</div><div style="font-size:15px;font-weight:700;color:#1E40AF">¥1,850,000</div></div>
+        <div style="background:#F8F9FB;border:1px solid #E8E9EE;border-radius:8px;padding:10px 12px"><div style="font-size:10px;color:#666666;margin-bottom:3px">請求予定日</div><div style="font-size:13px;font-weight:700;color:#111111">2026/04/20</div></div>
+        <div style="background:#F8F9FB;border:1px solid #E8E9EE;border-radius:8px;padding:10px 12px"><div style="font-size:10px;color:#666666;margin-bottom:3px">入金予定日</div><div style="font-size:13px;font-weight:700;color:#111111">2026/04/30</div></div>
+        <div style="background:#F8F9FB;border:1px solid #E8E9EE;border-radius:8px;padding:10px 12px"><div style="font-size:10px;color:#666666;margin-bottom:3px">請求書発行</div><div style="font-size:13px;font-weight:700;color:#9CA3AF">未発行（完工後）</div></div>
+        <div style="background:#F8F9FB;border:1px solid #E8E9EE;border-radius:8px;padding:10px 12px"><div style="font-size:10px;color:#666666;margin-bottom:3px">入金状況</div><div style="font-size:13px;font-weight:700;color:#D97706">入金待ち</div></div>
+      </div>
+      <div style="font-size:11px;color:#92400E;padding:9px 12px;background:#FFFBF0;border:1px solid #F6D860;border-radius:8px">工事完了日が確定すると請求処理が可能になります。</div>
+    </div>
+    <div style="padding:14px;display:none" id="s-gantt">
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:10px">
+        <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#444444"><div style="width:12px;height:10px;border-radius:2px;background:#16A34A"></div>完了</div>
+        <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#444444"><div style="width:12px;height:10px;border-radius:2px;background:#3B82F6"></div>施工中</div>
+        <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#444444"><div style="width:12px;height:10px;border-radius:2px;background:#93C5FD"></div>予定</div>
+        <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#444444"><div style="width:12px;height:10px;border-radius:2px;background:#FCD34D"></div>材料</div>
+        <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#444444"><div style="width:12px;height:10px;border-radius:2px;background:#FCA5A5"></div>遅延</div>
+        <div style="display:flex;align-items:center;gap:4px;font-size:11px"><div style="width:2px;height:12px;background:#DC2626;border-radius:1px"></div><span style="color:#DC2626;font-weight:700">今日 4/4</span></div>
+      </div>
+      <div style="overflow-x:auto;border:1px solid #E0E2E8;border-radius:8px;background:#ffffff"><div id="gc"></div></div>
+      <div style="margin-top:12px;background:#F8F9FB;border:1px solid #E8E9EE;border-radius:8px;padding:10px 14px">
+        <div style="font-size:11px;font-weight:700;color:#444444;margin-bottom:8px">工期サマリー</div>
+        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+          <div style="text-align:center"><div style="font-size:10px;color:#666666;margin-bottom:2px">着工日</div><div style="font-size:12px;font-weight:700;color:#111111">3/1</div></div>
+          <div style="text-align:center"><div style="font-size:10px;color:#666666;margin-bottom:2px">当初完工予定</div><div style="font-size:12px;font-weight:700;color:#DC2626">3/15</div></div>
+          <div style="text-align:center"><div style="font-size:10px;color:#666666;margin-bottom:2px">現在の完工見込</div><div style="font-size:12px;font-weight:700;color:#D97706">3/25</div></div>
+        </div>
+      </div>
+    </div>
+    <div style="padding:14px;display:none" id="s-kojilog">
+      <div style="padding-left:20px">
+        <div style="position:relative;padding:0 0 0 16px;border-left:1.5px solid #D0D3DC"><div style="position:absolute;left:-5px;top:10px;width:9px;height:9px;border-radius:50%;border:1.5px solid #DC2626;background:#DC2626"></div><div style="background:#F8F9FB;border:1px solid #E8E9EE;border-radius:8px;padding:8px 11px;margin-bottom:8px"><div style="font-size:10px;color:#555555;margin-bottom:3px;display:flex;align-items:center;gap:6px"><span style="font-size:10px;padding:1px 6px;border-radius:3px;background:#FEE2E2;color:#991B1B">工期遅延アラート</span>2026/04/04</div><div style="font-size:12px;color:#111111;line-height:1.5">完工予定日（3/15）を超過。要確認ボックスに通知送信。</div><div style="font-size:10px;color:#888888;margin-top:4px">システム自動</div></div></div>
+        <div style="position:relative;padding:0 0 0 16px;border-left:1.5px solid #D0D3DC"><div style="position:absolute;left:-5px;top:10px;width:9px;height:9px;border-radius:50%;border:1.5px solid #3B82F6;background:#3B82F6"></div><div style="background:#F8F9FB;border:1px solid #E8E9EE;border-radius:8px;padding:8px 11px;margin-bottom:8px"><div style="font-size:10px;color:#555555;margin-bottom:3px;display:flex;align-items:center;gap:6px"><span style="font-size:10px;padding:1px 6px;border-radius:3px;background:#DBEAFE;color:#1E40AF">日報登録</span>2026/03/20</div><div style="font-size:12px;color:#111111;line-height:1.5">2F内装クロス張り。下地補修が必要なため追加日程発生。</div><div style="font-size:10px;color:#888888;margin-top:4px">山田 太郎</div></div></div>
+        <div style="position:relative;padding:0 0 0 16px;border-left:1.5px solid #D0D3DC"><div style="position:absolute;left:-5px;top:10px;width:9px;height:9px;border-radius:50%;border:1.5px solid #16A34A;background:#16A34A"></div><div style="background:#F8F9FB;border:1px solid #E8E9EE;border-radius:8px;padding:8px 11px;margin-bottom:8px"><div style="font-size:10px;color:#555555;margin-bottom:3px;display:flex;align-items:center;gap:6px"><span style="font-size:10px;padding:1px 6px;border-radius:3px;background:#F3F4F6;color:#374151">DW連携</span>2026/03/01</div><div style="font-size:12px;color:#111111;line-height:1.5">ダンドリワークへ現場情報を連携。着工確認。</div><div style="font-size:10px;color:#888888;margin-top:4px">システム</div></div></div>
+        <div style="position:relative;padding:0 0 0 16px"><div style="position:absolute;left:-5px;top:10px;width:9px;height:9px;border-radius:50%;border:1.5px solid #16A34A;background:#16A34A"></div><div style="background:#F8F9FB;border:1px solid #E8E9EE;border-radius:8px;padding:8px 11px;margin-bottom:8px"><div style="font-size:10px;color:#555555;margin-bottom:3px;display:flex;align-items:center;gap:6px"><span style="font-size:10px;padding:1px 6px;border-radius:3px;background:#F3F4F6;color:#374151">受注登録</span>2026/02/15</div><div style="font-size:12px;color:#111111;line-height:1.5">受注登録完了。請求区分：完工一括。</div><div style="font-size:10px;color:#888888;margin-top:4px">西川 公大</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 発注詳細① -->
+<div style="padding:16px;display:none" id="p-hd1">
+  <div style="background:#ffffff;border:1px solid #E0E2E8;border-radius:12px;padding:14px 16px;margin-bottom:12px">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+      <div><div style="font-size:16px;font-weight:700;color:#111111;margin-bottom:4px">〇〇内装工業　発注詳細</div><div style="font-size:11px;color:#555555;display:flex;align-items:center;gap:8px"><span>田中邸 内装改修工事</span><span style="display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;background:#DBEAFE;color:#1E40AF">施工中</span></div></div>
+      <div style="text-align:right"><div style="font-size:20px;font-weight:700;color:#1E40AF">¥420,000</div><div style="font-size:11px;color:#9CA3AF">支払：未払い</div></div>
+    </div>
+  </div>
+  <div style="background:#ffffff;border:1px solid #E0E2E8;border-radius:12px;padding:14px 16px;margin-bottom:12px">
+    <div style="font-size:12px;font-weight:700;color:#444444;margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid #EEF0F5">発注情報</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div style="background:#F8F9FB;border:1px solid #E8E9EE;border-radius:8px;padding:10px 12px"><div style="font-size:10px;color:#666666;margin-bottom:3px">発注日</div><div style="font-size:13px;font-weight:700;color:#111111">2026/02/20</div></div>
+      <div style="background:#F8F9FB;border:1px solid #E8E9EE;border-radius:8px;padding:10px 12px"><div style="font-size:10px;color:#666666;margin-bottom:3px">作業予定期間</div><div style="font-size:13px;font-weight:700;color:#111111">2026/03/01〜03/25</div></div>
+      <div style="background:#F8F9FB;border:1px solid #E8E9EE;border-radius:8px;padding:10px 12px"><div style="font-size:10px;color:#666666;margin-bottom:3px">発注区分</div><div style="font-size:13px;font-weight:700;color:#111111">外注（労務）</div></div>
+      <div style="background:#F8F9FB;border:1px solid #E8E9EE;border-radius:8px;padding:10px 12px"><div style="font-size:10px;color:#666666;margin-bottom:3px">担当者</div><div style="font-size:13px;font-weight:700;color:#111111">山田 太郎</div></div>
+    </div>
+  </div>
+  <div style="background:#ffffff;border:1px solid #E0E2E8;border-radius:12px;padding:14px 16px;margin-bottom:12px">
+    <div style="font-size:12px;font-weight:700;color:#444444;margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid #EEF0F5">発注明細</div>
+    <table style="width:100%;border-collapse:collapse;font-size:12px">
+      <thead><tr><th style="text-align:left;padding:7px 8px;color:#444444;font-weight:700;border-bottom:1px solid #E8E9EE;font-size:11px;background:#F8F9FB;width:40%">項目</th><th style="text-align:left;padding:7px 8px;color:#444444;font-weight:700;border-bottom:1px solid #E8E9EE;font-size:11px;background:#F8F9FB;width:15%">数量</th><th style="text-align:left;padding:7px 8px;color:#444444;font-weight:700;border-bottom:1px solid #E8E9EE;font-size:11px;background:#F8F9FB;width:15%">単位</th><th style="text-align:left;padding:7px 8px;color:#444444;font-weight:700;border-bottom:1px solid #E8E9EE;font-size:11px;background:#F8F9FB;width:15%">単価</th><th style="text-align:left;padding:7px 8px;color:#444444;font-weight:700;border-bottom:1px solid #E8E9EE;font-size:11px;background:#F8F9FB;width:15%">金額</th></tr></thead>
+      <tbody>
+        <tr><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">クロス張り（1F）</td><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">120</td><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">㎡</td><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">¥1,200</td><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">¥144,000</td></tr>
+        <tr><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">クロス張り（2F）</td><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">100</td><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">㎡</td><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">¥1,200</td><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">¥120,000</td></tr>
+        <tr><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">下地補修</td><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">1</td><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">式</td><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">¥80,000</td><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">¥80,000</td></tr>
+        <tr><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">石膏ボード張り</td><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">80</td><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">枚</td><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">¥800</td><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">¥64,000</td></tr>
+        <tr><td style="padding:8px;color:#111111">養生・諸経費</td><td style="padding:8px;color:#111111">1</td><td style="padding:8px;color:#111111">式</td><td style="padding:8px;color:#111111">¥12,000</td><td style="padding:8px;color:#111111">¥12,000</td></tr>
+        <tr><td colspan="4" style="padding:8px;text-align:right;font-weight:700;color:#1D4ED8;border-top:1px solid #D0D3DC">合計</td><td style="padding:8px;font-weight:700;color:#1D4ED8;border-top:1px solid #D0D3DC">¥420,000</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="background:#ffffff;border:1px solid #E0E2E8;border-radius:12px;padding:14px 16px;margin-bottom:12px">
+    <div style="font-size:12px;font-weight:700;color:#444444;margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid #EEF0F5">完了・支払</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div style="background:#F8F9FB;border:1px solid #E8E9EE;border-radius:8px;padding:10px 12px"><div style="font-size:10px;color:#666666;margin-bottom:3px">進捗</div><div style="margin-top:6px"><div style="display:flex;justify-content:space-between;font-size:11px;color:#444444;margin-bottom:4px"><span>70%</span><span style="color:#D97706">延長中</span></div><div style="background:#EEF0F5;border-radius:4px;height:8px;overflow:hidden"><div style="height:100%;border-radius:4px;background:#3B82F6;width:70%"></div></div></div></div>
+      <div style="background:#F8F9FB;border:1px solid #E8E9EE;border-radius:8px;padding:10px 12px"><div style="font-size:10px;color:#666666;margin-bottom:3px">支払条件</div><div style="font-size:13px;font-weight:700;color:#111111">翌月末払い</div></div>
+      <div style="background:#F8F9FB;border:1px solid #E8E9EE;border-radius:8px;padding:10px 12px"><div style="font-size:10px;color:#666666;margin-bottom:3px">完了日</div><input type="date" style="width:100% !important;padding:5px 8px !important;font-size:12px !important;border:1px solid #CCCCCC !important;border-radius:6px !important;background-color:#ffffff !important;color:#111111 !important;margin-top:4px"></div>
+      <div style="background:#F8F9FB;border:1px solid #E8E9EE;border-radius:8px;padding:10px 12px"><div style="font-size:10px;color:#666666;margin-bottom:3px">支払日</div><input type="date" style="width:100% !important;padding:5px 8px !important;font-size:12px !important;border:1px solid #CCCCCC !important;border-radius:6px !important;background-color:#ffffff !important;color:#111111 !important;margin-top:4px"></div>
+    </div>
+  </div>
+  <div style="background:#ffffff;border:1px solid #E0E2E8;border-radius:12px;padding:14px 16px;margin-bottom:12px"><div style="font-size:12px;font-weight:700;color:#444444;margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid #EEF0F5">備考・メモ</div><div style="font-size:12px;color:#111111;line-height:1.7">下地補修が発生したため工期を3/25まで延長。追加費用は発注済み金額内で処理。次回も依頼したい業者。</div></div>
+</div>
+
+<!-- 発注詳細② -->
+<div style="padding:16px;display:none" id="p-hd2">
+  <div style="background:#ffffff;border:1px solid #E0E2E8;border-radius:12px;padding:14px 16px;margin-bottom:12px">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+      <div><div style="font-size:16px;font-weight:700;color:#111111;margin-bottom:4px">△△解体　発注詳細</div><div style="font-size:11px;color:#555555;display:flex;align-items:center;gap:8px"><span>田中邸 内装改修工事</span><span style="display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;background:#F3F4F6;color:#374151;border:1px solid #D1D5DB">支払済</span></div></div>
+      <div style="text-align:right"><div style="font-size:20px;font-weight:700;color:#1E40AF">¥180,000</div><div style="font-size:11px;color:#065F46;font-weight:700">支払済：2026/03/31</div></div>
+    </div>
+  </div>
+  <div style="background:#ffffff;border:1px solid #E0E2E8;border-radius:12px;padding:14px 16px;margin-bottom:12px">
+    <div style="font-size:12px;font-weight:700;color:#444444;margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid #EEF0F5">発注明細</div>
+    <table style="width:100%;border-collapse:collapse;font-size:12px">
+      <thead><tr><th style="text-align:left;padding:7px 8px;color:#444444;font-weight:700;border-bottom:1px solid #E8E9EE;font-size:11px;background:#F8F9FB;width:40%">項目</th><th style="text-align:left;padding:7px 8px;color:#444444;font-weight:700;border-bottom:1px solid #E8E9EE;font-size:11px;background:#F8F9FB;width:15%">数量</th><th style="text-align:left;padding:7px 8px;color:#444444;font-weight:700;border-bottom:1px solid #E8E9EE;font-size:11px;background:#F8F9FB;width:15%">単位</th><th style="text-align:left;padding:7px 8px;color:#444444;font-weight:700;border-bottom:1px solid #E8E9EE;font-size:11px;background:#F8F9FB;width:15%">単価</th><th style="text-align:left;padding:7px 8px;color:#444444;font-weight:700;border-bottom:1px solid #E8E9EE;font-size:11px;background:#F8F9FB;width:15%">金額</th></tr></thead>
+      <tbody>
+        <tr><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">内装解体撤去</td><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">1</td><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">式</td><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">¥120,000</td><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">¥120,000</td></tr>
+        <tr><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">養生工事</td><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">1</td><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">式</td><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">¥35,000</td><td style="padding:8px;border-bottom:1px solid #EEF0F5;color:#111111">¥35,000</td></tr>
+        <tr><td style="padding:8px;color:#111111">廃材処理・運搬</td><td style="padding:8px;color:#111111">1</td><td style="padding:8px;color:#111111">式</td><td style="padding:8px;color:#111111">¥25,000</td><td style="padding:8px;color:#111111">¥25,000</td></tr>
+        <tr><td colspan="4" style="padding:8px;text-align:right;font-weight:700;color:#1D4ED8;border-top:1px solid #D0D3DC">合計</td><td style="padding:8px;font-weight:700;color:#1D4ED8;border-top:1px solid #D0D3DC">¥180,000</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="background:#ffffff;border:1px solid #E0E2E8;border-radius:12px;padding:14px 16px;margin-bottom:12px">
+    <div style="font-size:12px;font-weight:700;color:#444444;margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid #EEF0F5">完了・支払確認</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div style="background:#F8F9FB;border:1px solid #E8E9EE;border-radius:8px;padding:10px 12px"><div style="font-size:10px;color:#666666;margin-bottom:3px">完了日</div><div style="font-size:13px;font-weight:700;color:#065F46">2026/03/02</div></div>
+      <div style="background:#F8F9FB;border:1px solid #E8E9EE;border-radius:8px;padding:10px 12px"><div style="font-size:10px;color:#666666;margin-bottom:3px">支払日</div><div style="font-size:13px;font-weight:700;color:#065F46">2026/03/31</div></div>
+      <div style="background:#F8F9FB;border:1px solid #E8E9EE;border-radius:8px;padding:10px 12px"><div style="font-size:10px;color:#666666;margin-bottom:3px">支払条件</div><div style="font-size:13px;font-weight:700;color:#111111">翌月末払い</div></div>
+      <div style="background:#F8F9FB;border:1px solid #E8E9EE;border-radius:8px;padding:10px 12px"><div style="font-size:10px;color:#666666;margin-bottom:3px">評価</div><div style="font-size:13px;font-weight:700;color:#111111">★★★★★　優良</div></div>
+    </div>
+  </div>
+  <div style="background:#ffffff;border:1px solid #E0E2E8;border-radius:12px;padding:14px 16px;margin-bottom:12px"><div style="font-size:12px;font-weight:700;color:#444444;margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid #EEF0F5">備考・メモ</div><div style="font-size:12px;color:#111111;line-height:1.7">作業完了。仕上がり良好。対応が早く丁寧。次回も優先的に依頼したい業者。単価：¥70,000/人工</div></div>
+</div>
+
+</div>
+
+<script>
+const pages={
+  list:{t:'顧客マスタ — sola',b:'<span style="color:#111111;font-weight:700">顧客一覧</span>'},
+  cust:{t:'田中 一郎 様 — sola',b:'<span style="color:#1D4ED8;cursor:pointer" onclick="go(\'list\')">顧客一覧</span><span style="color:#CCCCCC;font-size:10px;margin:0 4px">›</span><span style="color:#111111;font-weight:700">田中 一郎 様</span>'},
+  scene:{t:'田中邸 内装改修工事 — sola',b:'<span style="color:#1D4ED8;cursor:pointer" onclick="go(\'list\')">顧客一覧</span><span style="color:#CCCCCC;font-size:10px;margin:0 4px">›</span><span style="color:#1D4ED8;cursor:pointer" onclick="go(\'cust\')">田中 一郎 様</span><span style="color:#CCCCCC;font-size:10px;margin:0 4px">›</span><span style="color:#111111;font-weight:700">田中邸 内装改修工事</span>'},
+  hd1:{t:'〇〇内装工業 発注詳細 — sola',b:'<span style="color:#1D4ED8;cursor:pointer" onclick="go(\'list\')">顧客一覧</span><span style="color:#CCCCCC;font-size:10px;margin:0 4px">›</span><span style="color:#1D4ED8;cursor:pointer" onclick="go(\'cust\')">田中 一郎 様</span><span style="color:#CCCCCC;font-size:10px;margin:0 4px">›</span><span style="color:#1D4ED8;cursor:pointer" onclick="go(\'scene\')">田中邸 内装改修工事</span><span style="color:#CCCCCC;font-size:10px;margin:0 4px">›</span><span style="color:#111111;font-weight:700">〇〇内装工業 発注詳細</span>'},
+  hd2:{t:'△△解体 発注詳細 — sola',b:'<span style="color:#1D4ED8;cursor:pointer" onclick="go(\'list\')">顧客一覧</span><span style="color:#CCCCCC;font-size:10px;margin:0 4px">›</span><span style="color:#1D4ED8;cursor:pointer" onclick="go(\'cust\')">田中 一郎 様</span><span style="color:#CCCCCC;font-size:10px;margin:0 4px">›</span><span style="color:#1D4ED8;cursor:pointer" onclick="go(\'scene\')">田中邸 内装改修工事</span><span style="color:#CCCCCC;font-size:10px;margin:0 4px">›</span><span style="color:#111111;font-weight:700">△△解体 発注詳細</span>'},
+  mitumori:{t:'見積依頼登録 — sola',b:'<span style="color:#1D4ED8;cursor:pointer" onclick="go(\'list\')">顧客一覧</span><span style="color:#CCCCCC;font-size:10px;margin:0 4px">›</span><span style="color:#1D4ED8;cursor:pointer" onclick="go(\'cust\')">田中 一郎 様</span><span style="color:#CCCCCC;font-size:10px;margin:0 4px">›</span><span style="color:#111111;font-weight:700">見積依頼登録</span>'}
+};
+
+const allPages=['list','cust','scene','hd1','hd2','mitumori'];
+
+function go(name){
+  allPages.forEach(p=>{
+    const el=document.getElementById('p-'+p);
+    if(el)el.style.display=p===name?'block':'none';
+  });
+  if(name==='cust')swC('basic');
+  if(name==='scene'){swS('kihon');buildGantt();}
+}
+
+function swC(name){
+  ['basic','koji','contact'].forEach(n=>{
+    const el=document.getElementById('ct-'+n);
+    if(el)el.style.display=n===name?'block':'none';
+  });
+  document.querySelectorAll('.seg').forEach((el,i)=>{
+    const names=['basic','koji','contact'];
+    if(names[i]===name){
+      el.style.background='#ffffff';el.style.color='#111111';el.style.border='1px solid #D0D3DC';
+    }else{
+      el.style.background='transparent';el.style.color='#666666';el.style.border='none';
+    }
+  });
+}
+
+function swS(name){
+  ['kihon','nikki','hattyu','seikyu','gantt','kojilog'].forEach(n=>{
+    const el=document.getElementById('s-'+n);
+    if(el)el.style.display=n===name?'block':'none';
+  });
+  document.querySelectorAll('.stab').forEach(el=>{
+    const isOn=el.textContent.trim()===({kihon:'基本情報',nikki:'日報一覧',hattyu:'発注一覧',seikyu:'請求・入金',gantt:'工程表',kojilog:'工事ログ'})[name];
+    el.style.color=isOn?'#1D4ED8':'#666666';
+    el.style.borderBottom=isOn?'2px solid #3B82F6':'2px solid transparent';
+    el.style.background=isOn?'#ffffff':'transparent';
+  });
+  if(name==='gantt')buildGantt();
+}
+
+// ダミー顧客データ
+const customers=[
+  {id:'t',kanji:'田中 一郎',honorific:'様',kana:'タナカ イチロウ',initial:'田',iBg:'#DBEAFE',iColor:'#1E40AF',addr:'大阪府堺市南区〇〇町1-2-3',addrShort:'堺市南区',last:'2026/04/03',koji:'田中邸 内装改修・外壁塗装ほか',badges:[{l:'元請け',bg:'#DBEAFE',c:'#1E40AF'},{l:'リピーター',bg:'#D1FAE5',c:'#065F46'},{l:'VIP',bg:'#FEF3C7',c:'#92400E'}],clickable:true},
+  {id:'j',kanji:'JF株式会社',honorific:'',kana:'ジェイエフ',initial:'J',iBg:'#EDE9FE',iColor:'#4C1D95',addr:'大阪府堺市北区△△2-4-6',addrShort:'堺市北区',last:'2026/03/28',koji:'JF新築工事 A棟ほか',badges:[{l:'元請け',bg:'#DBEAFE',c:'#1E40AF'}]},
+  {id:'y',kanji:'山本 三郎',honorific:'様',kana:'ヤマモト サブロウ',initial:'山',iBg:'#D1FAE5',iColor:'#065F46',addr:'大阪府堺市西区◎◎5-8-2',addrShort:'堺市西区',last:'2026/04/01',koji:'山本邸 新築工事',badges:[{l:'元請け',bg:'#DBEAFE',c:'#1E40AF'}]},
+  {id:'s',kanji:'佐藤 建設株式会社',honorific:'',kana:'サトウケンセツ',initial:'佐',iBg:'#FEE2E2',iColor:'#991B1B',addr:'大阪市天王寺区□□3-7-1',addrShort:'大阪市天王寺区',last:'2026/03/22',koji:'天王寺マンション改修工事',badges:[{l:'下請け',bg:'#F3E8FF',c:'#6B21A8'},{l:'リピーター',bg:'#D1FAE5',c:'#065F46'}]},
+  {id:'z',kanji:'鈴木 工務店',honorific:'',kana:'スズキコウムテン',initial:'鈴',iBg:'#FEF3C7',iColor:'#92400E',addr:'大阪府堺市堺区◯◯4-2-8',addrShort:'堺市堺区',last:'2026/03/30',koji:'鈴木邸リフォーム・店舗改装',badges:[{l:'元請け',bg:'#DBEAFE',c:'#1E40AF'},{l:'リピーター',bg:'#D1FAE5',c:'#065F46'}]},
+  {id:'k',kanji:'高橋 美咲',honorific:'様',kana:'タカハシ ミサキ',initial:'高',iBg:'#FCE7F3',iColor:'#9D174D',addr:'大阪府堺市中区△△6-1-9',addrShort:'堺市中区',last:'2026/02/14',koji:'高橋邸 水回りリフォーム',badges:[{l:'元請け',bg:'#DBEAFE',c:'#1E40AF'}]},
+  {id:'h',kanji:'株式会社ハウスワン',honorific:'',kana:'ハウスワン',initial:'ハ',iBg:'#CCFBF1',iColor:'#134E4A',addr:'大阪市住吉区◇◇1-3-5',addrShort:'大阪市住吉区',last:'2026/04/02',koji:'住吉モデルハウス外構工事',badges:[{l:'元請け',bg:'#DBEAFE',c:'#1E40AF'},{l:'VIP',bg:'#FEF3C7',c:'#92400E'}]}
+];
+
+function renderCards(list){
+  const root=document.getElementById('cardList');
+  if(list.length===0){
+    root.innerHTML='<div style="background:#ffffff;border:1px dashed #D1D5DB;border-radius:12px;padding:24px;text-align:center;color:#9CA3AF;font-size:12px">該当する顧客が見つかりませんでした</div>';
+    return;
+  }
+  root.innerHTML=list.map(c=>{
+    const badges=c.badges.map((b,i)=>`<span style="font-size:10px;padding:1px 7px;border-radius:8px;background:${b.bg};color:${b.c};font-weight:600;${i>0?'margin-left:4px':''}">${b.l}</span>`).join('');
+    const click=c.clickable?'onclick="go(\'cust\')"':'';
+    return `<div ${click} style="background:#ffffff;border:1px solid #E0E2E8;border-radius:12px;padding:13px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px;cursor:pointer">
+      <div style="width:40px;height:40px;border-radius:50%;background:${c.iBg};display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:${c.iColor};flex-shrink:0">${c.initial}</div>
+      <div><div style="font-size:13px;font-weight:700;color:#111111;margin-bottom:3px">${c.kanji}${c.honorific?'　'+c.honorific:''}　${badges}</div><div style="font-size:11px;color:#555555">${c.addr}　／　最終接触：${c.last}　／　${c.koji}</div></div>
+    </div>`;
+  }).join('');
+}
+
+function doSearch(){
+  const inputs=document.querySelectorAll('#p-list input[type=text]');
+  const v=[...inputs].map(i=>i.value.toLowerCase());
+  const filtered=customers.filter(c=>{
+    return (!v[0]||c.kanji.toLowerCase().includes(v[0]))
+      &&(!v[1]||c.kana.toLowerCase().includes(v[1]))
+      &&(!v[2]||(c.addr+c.addrShort).toLowerCase().includes(v[2]))
+      &&(!v[3]||c.koji.toLowerCase().includes(v[3]));
+  });
+  renderCards(filtered);
+  document.getElementById('sr').textContent=filtered.length+'件の顧客が見つかりました';
+}
+
+function resetSearch(){
+  document.querySelectorAll('#p-list input[type=text]').forEach(i=>i.value='');
+  renderCards(customers);
+  document.getElementById('sr').textContent=customers.length+'件の顧客が見つかりました';
+}
+
+// 初期表示
+renderCards(customers);
+document.getElementById('sr').textContent=customers.length+'件の顧客が見つかりました';
+
+const tasks=[{name:'材料調達',co:'◇◇建材',type:'mat',s:1,e:4,status:'done'},{name:'解体・養生',co:'△△解体',type:'done',s:1,e:2,status:'done'},{name:'内装下地',co:'〇〇内装工業',type:'done',s:3,e:10,status:'done'},{name:'クロス（1F）',co:'〇〇内装工業',type:'done',s:11,e:15,status:'done'},{name:'クロス（2F）',co:'〇〇内装工業',type:'delay',s:16,e:25,status:'delay'},{name:'電気工事',co:'□□電気設備',type:'plan',s:26,e:29,status:'plan'},{name:'検査・引渡',co:'ラックプラス',type:'plan',s:30,e:31,status:'plan'}];
+const DAYS=31,TODAY=35,LW=118,SW=52,CW=23;
+const stMap={done:{s:'background:#D1FAE5;color:#065F46',l:'完了'},delay:{s:'background:#FEE2E2;color:#991B1B',l:'遅延'},plan:{s:'background:#F3F4F6;color:#374151',l:'予定'},mat:{s:'background:#D1FAE5;color:#065F46',l:'完了'}};
+const colMap={done:'#16A34A',delay:'#FCA5A5',plan:'#93C5FD',mat:'#FCD34D'};
+let built=false;
+function buildGantt(){
+  if(built)return;built=true;
+  const con=document.getElementById('gc');
+  let h=`<div style="min-width:${LW+SW+CW*DAYS}px">`;
+  h+=`<div style="display:flex;border-bottom:1px solid #E0E2E8;background:#F8F9FB">`;
+  h+=`<div style="width:${LW}px;flex-shrink:0;border-right:1px solid #E0E2E8;padding:5px 8px;font-size:10px;font-weight:700;color:#444444">工程</div>`;
+  h+=`<div style="width:${SW}px;flex-shrink:0;border-right:1px solid #E0E2E8;padding:5px 4px;font-size:10px;font-weight:700;color:#444444;text-align:center">状態</div>`;
+  for(let d=1;d<=DAYS;d++){
+    const dow=new Date(2026,2,d).getDay(),isW=dow===0||dow===6,isT=d===TODAY;
+    h+=`<div style="width:${CW}px;flex-shrink:0;${isT?'background:#FFF0F0':isW?'background:#F3F4F6':'background:#ffffff'};border-right:1px solid #EEF0F5;padding:5px 2px;font-size:9px;${isT?'color:#DC2626;font-weight:700':isW?'color:#9CA3AF':'color:#555555'};text-align:center">${d}</div>`;
+  }
+  h+='</div>';
+  tasks.forEach((t,i)=>{
+    h+=`<div style="display:flex;${i<tasks.length-1?'border-bottom:1px solid #EEF0F5':''}">`;
+    h+=`<div style="width:${LW}px;flex-shrink:0;border-right:1px solid #E0E2E8;padding:5px 8px;display:flex;flex-direction:column;justify-content:center"><div style="font-size:11px;font-weight:700;color:#111111">${t.name}</div><div style="font-size:10px;color:#555555">${t.co}</div></div>`;
+    const sm=stMap[t.status]||stMap.plan;
+    h+=`<div style="width:${SW}px;flex-shrink:0;border-right:1px solid #E0E2E8;display:flex;align-items:center;justify-content:center;padding:3px"><span style="font-size:10px;padding:2px 4px;border-radius:6px;font-weight:700;${sm.s}">${sm.l}</span></div>`;
+    for(let d=1;d<=DAYS;d++){
+      const dow=new Date(2026,2,d).getDay(),isW=dow===0||dow===6,isT=d===TODAY;
+      const inR=d>=t.s&&d<=t.e,iF=d===t.s,iL=d===t.e;
+      const r=iF&&iL?'3px':iF?'3px 0 0 3px':iL?'0 3px 3px 0':'0';
+      h+=`<div style="width:${CW}px;flex-shrink:0;${isT?'background:#FFF0F0':isW?'background:#F3F4F6':'background:#ffffff'};${d<DAYS?'border-right:1px solid #EEF0F5;':''}height:38px;position:relative">${isT?'<div style="position:absolute;top:0;bottom:0;left:50%;width:1.5px;background:#DC2626;opacity:.3;z-index:5"></div>':''}${inR?`<div style="position:absolute;height:14px;top:12px;left:1px;right:1px;background:${colMap[t.type]};border-radius:${r};opacity:.85"></div>`:''}</div>`;
+    }
+    h+='</div>';
+  });
+  h+='</div>';
+  con.innerHTML=h;
+}
+buildGantt();
+</script>
+</body>
+</html>

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>sola 業務フロー</title>
+<style>
+  body { margin: 0; padding: 16px; background: #fff; font-family: "Hiragino Kaku Gothic Pro", "Meiryo", sans-serif; }
+</style>
+</head>
+<body>
+<div style="overflow-x:auto;width:100%">
+<svg width="1200" viewBox="0 0 1200 1780" style="display:block;min-width:1200px">
+<defs>
+<marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+
+<!-- レーン背景 -->
+<rect x="0"    y="60" width="120"  height="1720" fill="#EFF6FF" opacity="0.5"/>
+<rect x="120"  y="60" width="140"  height="1720" fill="#F0FDF4" opacity="0.6"/>
+<rect x="260"  y="60" width="140"  height="1720" fill="#FDF4FF" opacity="0.5"/>
+<rect x="400"  y="60" width="140"  height="1720" fill="#FEF9C3" opacity="0.5"/>
+<rect x="540"  y="60" width="140"  height="1720" fill="#FFFBEB" opacity="0.5"/>
+<rect x="680"  y="60" width="140"  height="1720" fill="#FFF1F2" opacity="0.4"/>
+<rect x="820"  y="60" width="140"  height="1720" fill="#F8FAFC" opacity="0.6"/>
+<rect x="960"  y="60" width="240"  height="1720" fill="#F0FDFA" opacity="0.5"/>
+
+<!-- レーン縦線 -->
+<line x1="120"  y1="0" x2="120"  y2="1780" stroke="#CBD5E1" stroke-width="0.5"/>
+<line x1="260"  y1="0" x2="260"  y2="1780" stroke="#CBD5E1" stroke-width="0.5"/>
+<line x1="400"  y1="0" x2="400"  y2="1780" stroke="#CBD5E1" stroke-width="0.5"/>
+<line x1="540"  y1="0" x2="540"  y2="1780" stroke="#CBD5E1" stroke-width="0.5"/>
+<line x1="680"  y1="0" x2="680"  y2="1780" stroke="#CBD5E1" stroke-width="0.5"/>
+<line x1="820"  y1="0" x2="820"  y2="1780" stroke="#CBD5E1" stroke-width="0.5"/>
+<line x1="960"  y1="0" x2="960"  y2="1780" stroke="#CBD5E1" stroke-width="0.5"/>
+
+<!-- ヘッダー -->
+<rect x="0" y="0" width="1200" height="60" fill="#1D4ED8"/>
+<text x="60"   y="28" text-anchor="middle" font-size="10" font-weight="700" fill="#fff" font-family="sans-serif">お客様</text>
+<text x="60"   y="44" text-anchor="middle" font-size="9" font-weight="700" fill="#93C5FD" font-family="sans-serif">（元請担当）</text>
+<text x="190"  y="35" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="sans-serif">営業担当</text>
+<text x="330"  y="35" text-anchor="middle" font-size="11" font-weight="700" fill="#E9D5FF" font-family="sans-serif">設計担当</text>
+<text x="470"  y="35" text-anchor="middle" font-size="11" font-weight="700" fill="#FDE68A" font-family="sans-serif">積算担当</text>
+<text x="610"  y="35" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="sans-serif">工事担当</text>
+<text x="750"  y="35" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="sans-serif">経理担当</text>
+<text x="890"  y="35" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="sans-serif">上長</text>
+<text x="1080" y="35" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="sans-serif">協力会社</text>
+<text x="330"  y="52" text-anchor="middle" font-size="8" fill="#E9D5FF" font-family="sans-serif">図面・申請</text>
+<text x="470"  y="52" text-anchor="middle" font-size="8" fill="#FDE68A" font-family="sans-serif">数量拾い・金額算出</text>
+
+<!-- 注記バナー -->
+<rect x="0" y="60" width="1200" height="14" fill="#1E3A8A" opacity="0.12"/>
+<text x="600" y="70" text-anchor="middle" font-size="8" fill="#1E3A8A" font-family="sans-serif">※ラックプラスは下請け案件主体。元請担当が施主との窓口となるケースがほとんどです。</text>
+
+<!-- フェーズ帯 -->
+<rect x="0" y="82"   width="1200" height="14" fill="#DCFCE7" opacity="0.9"/>
+<text x="600" y="92"  text-anchor="middle" font-size="10" font-weight="700" fill="#166534" font-family="sans-serif">▌ 営業フェーズ</text>
+<rect x="0" y="394"  width="1200" height="14" fill="#F3E8FF" opacity="0.9"/>
+<text x="600" y="404" text-anchor="middle" font-size="10" font-weight="700" fill="#6B21A8" font-family="sans-serif">▌ 見積フェーズ</text>
+<rect x="0" y="844"  width="1200" height="14" fill="#FEF9C3" opacity="0.9"/>
+<text x="600" y="854" text-anchor="middle" font-size="10" font-weight="700" fill="#854D0E" font-family="sans-serif">▌ 受注フェーズ</text>
+<rect x="0" y="1014" width="1200" height="14" fill="#FFEDD5" opacity="0.9"/>
+<text x="600" y="1024" text-anchor="middle" font-size="10" font-weight="700" fill="#9A3412" font-family="sans-serif">▌ 施工フェーズ</text>
+<rect x="0" y="1434" width="1200" height="14" fill="#DBEAFE" opacity="0.9"/>
+<text x="600" y="1444" text-anchor="middle" font-size="10" font-weight="700" fill="#1E3A8A" font-family="sans-serif">▌ 完了・請求フェーズ</text>
+
+<!-- ==================================
+     営業フェーズ
+================================== -->
+<rect x="4"   y="104" width="112" height="40" rx="6" fill="#DBEAFE" stroke="#3B82F6" stroke-width="0.5"/>
+<text x="60"  y="120" text-anchor="middle" font-size="10" font-weight="700" fill="#1E40AF" font-family="sans-serif">案件相談</text>
+<text x="60"  y="134" text-anchor="middle" font-size="9" fill="#3B82F6" font-family="sans-serif">問い合わせ・依頼</text>
+<line x1="116" y1="124" x2="126" y2="124" stroke="#3B82F6" stroke-width="1" marker-end="url(#arr)"/>
+
+<rect x="126" y="104" width="128" height="40" rx="6" fill="#D1FAE5" stroke="#16A34A" stroke-width="0.5"/>
+<text x="190" y="120" text-anchor="middle" font-size="10" font-weight="700" fill="#166534" font-family="sans-serif">顧客新規登録</text>
+<text x="190" y="134" text-anchor="middle" font-size="9" fill="#16A34A" font-family="sans-serif">顧客管理 › 新規登録</text>
+
+<rect x="126" y="158" width="128" height="40" rx="6" fill="#FEF3C7" stroke="#D97706" stroke-width="0.5"/>
+<text x="190" y="174" text-anchor="middle" font-size="10" font-weight="700" fill="#92400E" font-family="sans-serif">日誌の登録</text>
+<text x="190" y="188" text-anchor="middle" font-size="9" fill="#D97706" font-family="sans-serif">初回相談を記録</text>
+<line x1="190" y1="144" x2="190" y2="158" stroke="#16A34A" stroke-width="1" marker-end="url(#arr)"/>
+
+<rect x="126" y="212" width="128" height="40" rx="6" fill="#D1FAE5" stroke="#16A34A" stroke-width="0.5"/>
+<text x="190" y="228" text-anchor="middle" font-size="10" font-weight="700" fill="#166534" font-family="sans-serif">案件情報登録</text>
+<text x="190" y="242" text-anchor="middle" font-size="9" fill="#16A34A" font-family="sans-serif">現場情報を詳細入力</text>
+<line x1="190" y1="198" x2="190" y2="212" stroke="#D97706" stroke-width="1" marker-end="url(#arr)"/>
+
+<rect x="126" y="266" width="408" height="50" rx="6" fill="#D1FAE5" stroke="#16A34A" stroke-width="0.5"/>
+<text x="330" y="285" text-anchor="middle" font-size="10" font-weight="700" fill="#166534" font-family="sans-serif">現地調査</text>
+<text x="330" y="301" text-anchor="middle" font-size="9" fill="#16A34A" font-family="sans-serif">営業 or 工事担当（案件による）・設計担当も同行のケースあり</text>
+<line x1="190" y1="252" x2="190" y2="266" stroke="#16A34A" stroke-width="1" marker-end="url(#arr)"/>
+
+<rect x="126" y="330" width="128" height="50" rx="6" fill="#D1FAE5" stroke="#16A34A" stroke-width="0.5"/>
+<text x="190" y="347" text-anchor="middle" font-size="10" font-weight="700" fill="#166534" font-family="sans-serif">見積依頼申請</text>
+<text x="190" y="362" text-anchor="middle" font-size="9" fill="#16A34A" font-family="sans-serif">設計・積算部署へ申請</text>
+<line x1="190" y1="316" x2="190" y2="330" stroke="#16A34A" stroke-width="1" marker-end="url(#arr)"/>
+<line x1="254" y1="355" x2="266" y2="355" stroke="#16A34A" stroke-width="1" marker-end="url(#arr)"/>
+<line x1="254" y1="355" x2="406" y2="355" stroke="#16A34A" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- ==================================
+     見積フェーズ
+================================== -->
+<rect x="266" y="416" width="128" height="40" rx="6" fill="#F3E8FF" stroke="#9333EA" stroke-width="0.5"/>
+<text x="330" y="432" text-anchor="middle" font-size="10" font-weight="700" fill="#6B21A8" font-family="sans-serif">見積依頼受託</text>
+<text x="330" y="446" text-anchor="middle" font-size="9" fill="#9333EA" font-family="sans-serif">内容・仕様を確認</text>
+<line x1="330" y1="380" x2="330" y2="416" stroke="#9333EA" stroke-width="1" stroke-dasharray="4 2" marker-end="url(#arr)"/>
+
+<rect x="406" y="416" width="128" height="40" rx="6" fill="#FEF9C3" stroke="#CA8A04" stroke-width="0.8"/>
+<text x="470" y="432" text-anchor="middle" font-size="10" font-weight="700" fill="#713F12" font-family="sans-serif">見積依頼受託</text>
+<text x="470" y="446" text-anchor="middle" font-size="9" fill="#92400E" font-family="sans-serif">数量拾い開始準備</text>
+<line x1="470" y1="380" x2="470" y2="416" stroke="#CA8A04" stroke-width="1" stroke-dasharray="4 2" marker-end="url(#arr)"/>
+
+<rect x="266" y="470" width="128" height="50" rx="6" fill="#F3E8FF" stroke="#9333EA" stroke-width="0.5"/>
+<text x="330" y="487" text-anchor="middle" font-size="10" font-weight="700" fill="#6B21A8" font-family="sans-serif">基本設計</text>
+<text x="330" y="502" text-anchor="middle" font-size="9" fill="#9333EA" font-family="sans-serif">図面・仕様書を作成</text>
+<text x="330" y="515" text-anchor="middle" font-size="9" fill="#9333EA" font-family="sans-serif">（積算担当へ共有）</text>
+<line x1="330" y1="456" x2="330" y2="470" stroke="#9333EA" stroke-width="1" marker-end="url(#arr)"/>
+<line x1="394" y1="495" x2="406" y2="495" stroke="#9333EA" stroke-width="1" stroke-dasharray="3 2" marker-end="url(#arr)"/>
+
+<rect x="406" y="470" width="128" height="50" rx="6" fill="#FEF9C3" stroke="#CA8A04" stroke-width="0.8"/>
+<text x="470" y="487" text-anchor="middle" font-size="10" font-weight="700" fill="#713F12" font-family="sans-serif">数量拾い</text>
+<text x="470" y="502" text-anchor="middle" font-size="9" fill="#92400E" font-family="sans-serif">図面より数量を拾い出し</text>
+<line x1="470" y1="456" x2="470" y2="470" stroke="#CA8A04" stroke-width="1" marker-end="url(#arr)"/>
+
+<rect x="406" y="534" width="128" height="50" rx="6" fill="#FEF9C3" stroke="#CA8A04" stroke-width="0.8"/>
+<text x="470" y="551" text-anchor="middle" font-size="10" font-weight="700" fill="#713F12" font-family="sans-serif">金額算出</text>
+<text x="470" y="566" text-anchor="middle" font-size="9" fill="#92400E" font-family="sans-serif">単価×数量で算出</text>
+<text x="470" y="579" text-anchor="middle" font-size="9" fill="#92400E" font-family="sans-serif">見積書作成 › 新規</text>
+<line x1="470" y1="520" x2="470" y2="534" stroke="#CA8A04" stroke-width="1" marker-end="url(#arr)"/>
+
+<rect x="266" y="598" width="268" height="50" rx="6" fill="#F3E8FF" stroke="#9333EA" stroke-width="0.8"/>
+<text x="400" y="615" text-anchor="middle" font-size="10" font-weight="700" fill="#6B21A8" font-family="sans-serif">見積承認申請</text>
+<text x="400" y="630" text-anchor="middle" font-size="9" fill="#9333EA" font-family="sans-serif">設計・積算まとめて上長へ回覧</text>
+<line x1="330" y1="520" x2="330" y2="598" stroke="#9333EA" stroke-width="1" marker-end="url(#arr)"/>
+<line x1="470" y1="584" x2="470" y2="623" stroke="#CA8A04" stroke-width="1"/>
+<line x1="470" y1="623" x2="534" y2="623" stroke="#9333EA" stroke-width="0.5" stroke-dasharray="3 2"/>
+<line x1="534" y1="623" x2="826" y2="623" stroke="#9333EA" stroke-width="1" stroke-dasharray="4 2" marker-end="url(#arr)"/>
+
+<rect x="826" y="598" width="128" height="50" rx="6" fill="#F1F5F9" stroke="#64748B" stroke-width="0.5"/>
+<text x="890" y="615" text-anchor="middle" font-size="10" font-weight="700" fill="#334155" font-family="sans-serif">見積内容承認</text>
+<text x="890" y="630" text-anchor="middle" font-size="9" fill="#64748B" font-family="sans-serif">回覧・承認処理</text>
+<line x1="826" y1="623" x2="534" y2="623" stroke="#64748B" stroke-width="1" stroke-dasharray="4 2" marker-end="url(#arr)"/>
+
+<rect x="266" y="662" width="268" height="40" rx="6" fill="#FEF9C3" stroke="#CA8A04" stroke-width="0.8"/>
+<text x="400" y="682" text-anchor="middle" font-size="10" font-weight="700" fill="#713F12" font-family="sans-serif">承認済み見積書　提出準備完了</text>
+<line x1="400" y1="648" x2="400" y2="662" stroke="#64748B" stroke-width="1" marker-end="url(#arr)"/>
+
+<rect x="126" y="662" width="128" height="40" rx="6" fill="#D1FAE5" stroke="#16A34A" stroke-width="0.5"/>
+<text x="190" y="678" text-anchor="middle" font-size="10" font-weight="700" fill="#166534" font-family="sans-serif">見積提出日登録</text>
+<text x="190" y="692" text-anchor="middle" font-size="9" fill="#16A34A" font-family="sans-serif">提出日を営業に登録</text>
+<line x1="266" y1="682" x2="254" y2="682" stroke="#CA8A04" stroke-width="1" marker-end="url(#arr)"/>
+
+<rect x="126" y="716" width="408" height="50" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="0.8" stroke-dasharray="5 2"/>
+<text x="330" y="736" text-anchor="middle" font-size="10" font-weight="700" fill="#5B21B6" font-family="sans-serif">見積書提出（日誌の登録あり）</text>
+<text x="330" y="752" text-anchor="middle" font-size="9" fill="#7C3AED" font-family="sans-serif">営業 or 設計担当（案件による）→ 元請担当へ提出</text>
+<line x1="190" y1="702" x2="190" y2="716" stroke="#16A34A" stroke-width="1" marker-end="url(#arr)"/>
+<line x1="126" y1="741" x2="116" y2="741" stroke="#7C3AED" stroke-width="1" marker-end="url(#arr)"/>
+
+<rect x="4" y="724" width="112" height="40" rx="6" fill="#DBEAFE" stroke="#3B82F6" stroke-width="0.5"/>
+<text x="60" y="740" text-anchor="middle" font-size="10" font-weight="700" fill="#1E40AF" font-family="sans-serif">見積内容を検討</text>
+<text x="60" y="754" text-anchor="middle" font-size="9" fill="#3B82F6" font-family="sans-serif">社内確認・協議</text>
+
+<rect x="4" y="778" width="112" height="40" rx="6" fill="#DBEAFE" stroke="#3B82F6" stroke-width="0.5"/>
+<text x="60" y="794" text-anchor="middle" font-size="10" font-weight="700" fill="#1E40AF" font-family="sans-serif">提案回答</text>
+<text x="60" y="808" text-anchor="middle" font-size="9" fill="#3B82F6" font-family="sans-serif">発注意思を連絡</text>
+<line x1="60" y1="764" x2="60" y2="778" stroke="#3B82F6" stroke-width="1" marker-end="url(#arr)"/>
+<line x1="116" y1="798" x2="126" y2="798" stroke="#3B82F6" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- ==================================
+     受注フェーズ
+================================== -->
+<rect x="126" y="862" width="128" height="40" rx="6" fill="#FEF3C7" stroke="#D97706" stroke-width="0.5"/>
+<text x="190" y="878" text-anchor="middle" font-size="10" font-weight="700" fill="#92400E" font-family="sans-serif">日誌の登録</text>
+<text x="190" y="892" text-anchor="middle" font-size="9" fill="#D97706" font-family="sans-serif">提案回答を記録</text>
+<line x1="190" y1="818" x2="190" y2="862" stroke="#3B82F6" stroke-width="1" marker-end="url(#arr)"/>
+
+<rect x="126" y="916" width="128" height="40" rx="6" fill="#D1FAE5" stroke="#16A34A" stroke-width="0.5"/>
+<text x="190" y="932" text-anchor="middle" font-size="10" font-weight="700" fill="#166534" font-family="sans-serif">受注申請</text>
+<text x="190" y="946" text-anchor="middle" font-size="9" fill="#16A34A" font-family="sans-serif">受注申請一覧より</text>
+<line x1="190" y1="902" x2="190" y2="916" stroke="#D97706" stroke-width="1" marker-end="url(#arr)"/>
+<line x1="254" y1="936" x2="826" y2="936" stroke="#16A34A" stroke-width="1" stroke-dasharray="4 2" marker-end="url(#arr)"/>
+
+<rect x="826" y="916" width="128" height="40" rx="6" fill="#F1F5F9" stroke="#64748B" stroke-width="0.5"/>
+<text x="890" y="932" text-anchor="middle" font-size="10" font-weight="700" fill="#334155" font-family="sans-serif">受注申請承認</text>
+<text x="890" y="946" text-anchor="middle" font-size="9" fill="#64748B" font-family="sans-serif">回覧・承認処理</text>
+<line x1="826" y1="936" x2="254" y2="936" stroke="#64748B" stroke-width="1" stroke-dasharray="4 2" marker-end="url(#arr)"/>
+
+<rect x="126" y="970" width="128" height="40" rx="6" fill="#D1FAE5" stroke="#16A34A" stroke-width="0.5"/>
+<text x="190" y="986" text-anchor="middle" font-size="10" font-weight="700" fill="#166534" font-family="sans-serif">受注処理</text>
+<text x="190" y="1000" text-anchor="middle" font-size="9" fill="#16A34A" font-family="sans-serif">受注一覧 › 確定</text>
+<line x1="190" y1="956" x2="190" y2="970" stroke="#16A34A" stroke-width="1" marker-end="url(#arr)"/>
+
+<rect x="966" y="970" width="228" height="40" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="0.5"/>
+<text x="1080" y="986" text-anchor="middle" font-size="10" font-weight="700" fill="#5B21B6" font-family="sans-serif">DW自動連携</text>
+<text x="1080" y="1000" text-anchor="middle" font-size="9" fill="#7C3AED" font-family="sans-serif">受注確定後に自動実行</text>
+<line x1="254" y1="990" x2="966" y2="990" stroke="#7C3AED" stroke-width="1" stroke-dasharray="4 2" marker-end="url(#arr)"/>
+
+<!-- ==================================
+     施工フェーズ
+================================== -->
+<rect x="546" y="1032" width="128" height="40" rx="6" fill="#FEF3C7" stroke="#D97706" stroke-width="0.5"/>
+<text x="610" y="1048" text-anchor="middle" font-size="10" font-weight="700" fill="#92400E" font-family="sans-serif">現場段取り</text>
+<text x="610" y="1062" text-anchor="middle" font-size="9" fill="#D97706" font-family="sans-serif">現場情報を確認・準備</text>
+<line x1="190" y1="1010" x2="190" y2="1052" stroke="#16A34A" stroke-width="1"/>
+<line x1="190" y1="1052" x2="546" y2="1052" stroke="#16A34A" stroke-width="1" marker-end="url(#arr)"/>
+
+<rect x="546" y="1086" width="128" height="50" rx="6" fill="#FEF3C7" stroke="#D97706" stroke-width="0.5"/>
+<text x="610" y="1103" text-anchor="middle" font-size="10" font-weight="700" fill="#92400E" font-family="sans-serif">発注申請</text>
+<text x="610" y="1118" text-anchor="middle" font-size="9" fill="#D97706" font-family="sans-serif">発注一覧より登録</text>
+<text x="610" y="1131" text-anchor="middle" font-size="9" fill="#D97706" font-family="sans-serif">上長へ承認依頼</text>
+<line x1="610" y1="1072" x2="610" y2="1086" stroke="#D97706" stroke-width="1" marker-end="url(#arr)"/>
+<line x1="674" y1="1111" x2="826" y2="1111" stroke="#D97706" stroke-width="1" stroke-dasharray="4 2" marker-end="url(#arr)"/>
+
+<rect x="826" y="1086" width="128" height="50" rx="6" fill="#F1F5F9" stroke="#64748B" stroke-width="0.5"/>
+<text x="890" y="1103" text-anchor="middle" font-size="10" font-weight="700" fill="#334155" font-family="sans-serif">発注承認</text>
+<text x="890" y="1118" text-anchor="middle" font-size="9" fill="#64748B" font-family="sans-serif">発注内容を承認</text>
+<text x="890" y="1131" text-anchor="middle" font-size="9" fill="#64748B" font-family="sans-serif">発注書・請書確認</text>
+<line x1="826" y1="1111" x2="674" y2="1111" stroke="#64748B" stroke-width="1" stroke-dasharray="4 2" marker-end="url(#arr)"/>
+
+<rect x="546" y="1150" width="128" height="50" rx="6" fill="#FEF3C7" stroke="#D97706" stroke-width="0.5"/>
+<text x="610" y="1167" text-anchor="middle" font-size="10" font-weight="700" fill="#92400E" font-family="sans-serif">発注書・請書発行</text>
+<text x="610" y="1182" text-anchor="middle" font-size="9" fill="#D97706" font-family="sans-serif">協力会社へ送付</text>
+<text x="610" y="1195" text-anchor="middle" font-size="9" fill="#D97706" font-family="sans-serif">発注一覧に記録</text>
+<line x1="610" y1="1136" x2="610" y2="1150" stroke="#64748B" stroke-width="1" marker-end="url(#arr)"/>
+<line x1="674" y1="1175" x2="966" y2="1175" stroke="#D97706" stroke-width="1" marker-end="url(#arr)"/>
+
+<rect x="966" y="1150" width="228" height="40" rx="6" fill="#CCFBF1" stroke="#0D9488" stroke-width="0.5"/>
+<text x="1080" y="1166" text-anchor="middle" font-size="10" font-weight="700" fill="#134E4A" font-family="sans-serif">施工</text>
+<text x="1080" y="1180" text-anchor="middle" font-size="9" fill="#0D9488" font-family="sans-serif">現場作業を実施</text>
+
+<rect x="546" y="1214" width="128" height="40" rx="6" fill="#FEF3C7" stroke="#D97706" stroke-width="0.5"/>
+<text x="610" y="1230" text-anchor="middle" font-size="10" font-weight="700" fill="#92400E" font-family="sans-serif">日誌の登録</text>
+<text x="610" y="1244" text-anchor="middle" font-size="9" fill="#D97706" font-family="sans-serif">施工状況を随時記録</text>
+<line x1="610" y1="1200" x2="610" y2="1214" stroke="#D97706" stroke-width="1" marker-end="url(#arr)"/>
+
+<rect x="966" y="1214" width="228" height="50" rx="6" fill="#CCFBF1" stroke="#0D9488" stroke-width="0.5"/>
+<text x="1080" y="1231" text-anchor="middle" font-size="10" font-weight="700" fill="#134E4A" font-family="sans-serif">工事完了</text>
+<text x="1080" y="1246" text-anchor="middle" font-size="9" fill="#0D9488" font-family="sans-serif">請求書を送付</text>
+<line x1="1080" y1="1190" x2="1080" y2="1214" stroke="#0D9488" stroke-width="1" marker-end="url(#arr)"/>
+<line x1="966" y1="1239" x2="820" y2="1239" stroke="#0D9488" stroke-width="1" stroke-dasharray="4 2" marker-end="url(#arr)"/>
+
+<rect x="686" y="1214" width="128" height="50" rx="6" fill="#FFE4E6" stroke="#E11D48" stroke-width="0.5"/>
+<text x="750" y="1231" text-anchor="middle" font-size="10" font-weight="700" fill="#9F1239" font-family="sans-serif">支払請求書登録</text>
+<text x="750" y="1246" text-anchor="middle" font-size="9" fill="#E11D48" font-family="sans-serif">支払管理に登録</text>
+<text x="750" y="1259" text-anchor="middle" font-size="9" fill="#E11D48" font-family="sans-serif">支払予定日を設定</text>
+
+<rect x="546" y="1278" width="268" height="60" rx="6" fill="#FEF3C7" stroke="#D97706" stroke-width="0.8"/>
+<text x="680" y="1295" text-anchor="middle" font-size="10" font-weight="700" fill="#92400E" font-family="sans-serif">完了報告 兼 請求書発行依頼</text>
+<text x="680" y="1311" text-anchor="middle" font-size="9" fill="#D97706" font-family="sans-serif">請求先・紙orデータ・金額を報告</text>
+<text x="680" y="1325" text-anchor="middle" font-size="9" fill="#D97706" font-family="sans-serif">現場情報 › 完了報告</text>
+<line x1="610" y1="1254" x2="610" y2="1278" stroke="#D97706" stroke-width="1" marker-end="url(#arr)"/>
+<line x1="814" y1="1308" x2="826" y2="1308" stroke="#D97706" stroke-width="1" marker-end="url(#arr)"/>
+
+<rect x="826" y="1278" width="128" height="60" rx="6" fill="#F1F5F9" stroke="#64748B" stroke-width="0.5"/>
+<text x="890" y="1295" text-anchor="middle" font-size="10" font-weight="700" fill="#334155" font-family="sans-serif">完了報告承認</text>
+<text x="890" y="1311" text-anchor="middle" font-size="9" fill="#64748B" font-family="sans-serif">請求内容・完了を確認</text>
+<text x="890" y="1325" text-anchor="middle" font-size="9" fill="#64748B" font-family="sans-serif">承認処理</text>
+
+<!-- ==================================
+     完了・請求フェーズ
+================================== -->
+<rect x="686" y="1454" width="268" height="50" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="0.5"/>
+<text x="820" y="1471" text-anchor="middle" font-size="10" font-weight="700" fill="#5B21B6" font-family="sans-serif">売上請求書一覧へ自動遷移</text>
+<text x="820" y="1486" text-anchor="middle" font-size="9" fill="#7C3AED" font-family="sans-serif">上長承認後にシステムが自動移動</text>
+<text x="820" y="1499" text-anchor="middle" font-size="9" fill="#7C3AED" font-family="sans-serif">経理担当の受信BOXにも通知</text>
+<line x1="890" y1="1338" x2="890" y2="1479" stroke="#64748B" stroke-width="1"/>
+<line x1="890" y1="1479" x2="954" y2="1479" stroke="#7C3AED" stroke-width="1" marker-end="url(#arr)"/>
+
+<rect x="686" y="1518" width="128" height="50" rx="6" fill="#FFE4E6" stroke="#E11D48" stroke-width="0.5"/>
+<text x="750" y="1535" text-anchor="middle" font-size="10" font-weight="700" fill="#9F1239" font-family="sans-serif">請求書発行</text>
+<text x="750" y="1550" text-anchor="middle" font-size="9" fill="#E11D48" font-family="sans-serif">内容確認・発行処理</text>
+<text x="750" y="1563" text-anchor="middle" font-size="9" fill="#E11D48" font-family="sans-serif">売上請求書一覧</text>
+<line x1="750" y1="1504" x2="750" y2="1518" stroke="#7C3AED" stroke-width="1" marker-end="url(#arr)"/>
+<line x1="686" y1="1543" x2="120" y2="1543" stroke="#E11D48" stroke-width="1" stroke-dasharray="4 2" marker-end="url(#arr)"/>
+
+<rect x="4" y="1526" width="112" height="40" rx="6" fill="#DBEAFE" stroke="#3B82F6" stroke-width="0.5"/>
+<text x="60" y="1542" text-anchor="middle" font-size="10" font-weight="700" fill="#1E40AF" font-family="sans-serif">入金</text>
+<text x="60" y="1556" text-anchor="middle" font-size="9" fill="#3B82F6" font-family="sans-serif">期日までに振込</text>
+<line x1="60" y1="1566" x2="60" y2="1586" stroke="#3B82F6" stroke-width="1" marker-end="url(#arr)"/>
+<line x1="120" y1="1586" x2="686" y2="1586" stroke="#3B82F6" stroke-width="1" marker-end="url(#arr)"/>
+
+<rect x="686" y="1572" width="128" height="50" rx="6" fill="#FFE4E6" stroke="#E11D48" stroke-width="0.5"/>
+<text x="750" y="1589" text-anchor="middle" font-size="10" font-weight="700" fill="#9F1239" font-family="sans-serif">入金確認</text>
+<text x="750" y="1604" text-anchor="middle" font-size="9" fill="#E11D48" font-family="sans-serif">入金日を入力</text>
+<text x="750" y="1617" text-anchor="middle" font-size="9" fill="#E11D48" font-family="sans-serif">売上入金管理</text>
+
+<rect x="966" y="1572" width="228" height="50" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="0.5"/>
+<text x="1080" y="1589" text-anchor="middle" font-size="10" font-weight="700" fill="#5B21B6" font-family="sans-serif">工事担当へ自動メッセージ</text>
+<text x="1080" y="1604" text-anchor="middle" font-size="10" font-weight="700" fill="#5B21B6" font-family="sans-serif">受信BOXに通知</text>
+<line x1="814" y1="1597" x2="966" y2="1597" stroke="#7C3AED" stroke-width="1" stroke-dasharray="4 2" marker-end="url(#arr)"/>
+
+<rect x="546" y="1572" width="128" height="50" rx="6" fill="#FEF3C7" stroke="#D97706" stroke-width="0.5"/>
+<text x="610" y="1589" text-anchor="middle" font-size="10" font-weight="700" fill="#92400E" font-family="sans-serif">入金完了確認</text>
+<text x="610" y="1604" text-anchor="middle" font-size="9" fill="#D97706" font-family="sans-serif">受信BOXで通知受取</text>
+<text x="610" y="1617" text-anchor="middle" font-size="9" fill="#D97706" font-family="sans-serif">自動メッセージ受信</text>
+<line x1="966" y1="1597" x2="674" y2="1597" stroke="#7C3AED" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- 案件完了 -->
+<rect x="470" y="1654" width="260" height="44" rx="22" fill="#1D4ED8"/>
+<text x="600" y="1681" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff" font-family="sans-serif">案件完了</text>
+<line x1="610" y1="1622" x2="610" y2="1654" stroke="#D97706" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- 凡例 -->
+<rect x="0" y="1716" width="1200" height="50" fill="#F8FAFC"/>
+<rect x="10"  y="1730" width="10" height="10" rx="2" fill="#D1FAE5" stroke="#16A34A" stroke-width="0.5"/>
+<text x="24"  y="1739" font-size="9" fill="#166534" font-family="sans-serif">sola操作（営業）</text>
+<rect x="145" y="1730" width="10" height="10" rx="2" fill="#FEF3C7" stroke="#D97706" stroke-width="0.5"/>
+<text x="159" y="1739" font-size="9" fill="#92400E" font-family="sans-serif">日誌の登録あり</text>
+<rect x="270" y="1730" width="10" height="10" rx="2" fill="#DBEAFE" stroke="#3B82F6" stroke-width="0.5"/>
+<text x="284" y="1739" font-size="9" fill="#1E40AF" font-family="sans-serif">元請担当アクション</text>
+<rect x="415" y="1730" width="10" height="10" rx="2" fill="#F3E8FF" stroke="#9333EA" stroke-width="0.5"/>
+<text x="429" y="1739" font-size="9" fill="#6B21A8" font-family="sans-serif">設計担当</text>
+<rect x="510" y="1730" width="10" height="10" rx="2" fill="#FEF9C3" stroke="#CA8A04" stroke-width="0.8"/>
+<text x="524" y="1739" font-size="9" fill="#713F12" font-family="sans-serif">積算担当</text>
+<rect x="600" y="1730" width="10" height="10" rx="2" fill="#EDE9FE" stroke="#7C3AED" stroke-width="0.5"/>
+<text x="614" y="1739" font-size="9" fill="#5B21B6" font-family="sans-serif">システム自動</text>
+<rect x="710" y="1730" width="10" height="10" rx="2" fill="#F1F5F9" stroke="#64748B" stroke-width="0.5"/>
+<text x="724" y="1739" font-size="9" fill="#334155" font-family="sans-serif">上長承認</text>
+<rect x="800" y="1730" width="10" height="10" rx="2" fill="#CCFBF1" stroke="#0D9488" stroke-width="0.5"/>
+<text x="814" y="1739" font-size="9" fill="#134E4A" font-family="sans-serif">協力会社</text>
+<text x="900" y="1739" font-size="9" fill="#94A3B8" font-family="sans-serif">- - -  回覧・自動処理</text>
+</svg>
+</div>
+</body>
+</html>

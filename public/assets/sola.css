@@ -1,0 +1,271 @@
+/* sola — 共通デザイントークン & 基本スタイル */
+
+:root {
+  /* Colors — Primary */
+  --sola-primary: #1F2937;       /* トップバー(ダークグレー) */
+  --sola-primary-hover: #374151;
+  --sola-accent: #1D4ED8;        /* アクセント(ボタン/リンク) */
+  --sola-accent-hover: #1E40AF;
+
+  /* Colors — Surfaces */
+  --sola-bg: #F2F3F6;            /* ボディ背景(ライトグレー) */
+  --sola-card: #ffffff;          /* カード背景 */
+  --sola-surface-alt: #F8F9FB;   /* サブ背景(テーブルヘッダ等) */
+  --sola-border: #E0E2E8;
+  --sola-border-soft: #EEF0F5;
+  --sola-divider: #E8E9EE;
+
+  /* Colors — Text */
+  --sola-text: #111111;
+  --sola-text-muted: #555555;
+  --sola-text-subtle: #9CA3AF;
+  --sola-text-label: #666666;
+
+  /* Colors — Semantic */
+  --sola-success: #16A34A;
+  --sola-success-bg: #D1FAE5;
+  --sola-success-text: #065F46;
+  --sola-warning: #D97706;
+  --sola-warning-bg: #FEF3C7;
+  --sola-warning-text: #92400E;
+  --sola-danger: #DC2626;
+  --sola-danger-bg: #FEE2E2;
+  --sola-danger-text: #991B1B;
+  --sola-info-bg: #DBEAFE;
+  --sola-info-text: #1E40AF;
+
+  /* Sizing */
+  --sola-radius-sm: 6px;
+  --sola-radius: 8px;
+  --sola-radius-lg: 12px;
+  --sola-gap: 10px;
+  --sola-pad: 14px;
+
+  /* Type */
+  --sola-font: "Hiragino Kaku Gothic Pro", "Meiryo", "Noto Sans JP", sans-serif;
+  --sola-fs-xs: 10px;
+  --sola-fs-sm: 11px;
+  --sola-fs-base: 12px;
+  --sola-fs-md: 13px;
+  --sola-fs-lg: 16px;
+  --sola-fs-xl: 20px;
+}
+
+/* ============ Reset ============ */
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: var(--sola-font);
+  background: var(--sola-bg);
+  color: var(--sola-text);
+  min-height: 100vh;
+}
+
+/* ============ Header ============ */
+.sola-hdr {
+  background: var(--sola-primary);
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.sola-hdr-left,
+.sola-hdr-right {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+.sola-hdr-right { align-items: center; }
+.sola-logo {
+  font-size: var(--sola-fs-xl);
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+}
+.sola-subtitle {
+  font-size: var(--sola-fs-sm);
+  color: var(--sola-text-subtle);
+}
+.sola-menu-link {
+  font-size: var(--sola-fs-sm);
+  color: #ffffff;
+  text-decoration: none;
+  padding: 4px 10px;
+  border: 1px solid #4B5563;
+  border-radius: var(--sola-radius-sm);
+  background: rgba(255, 255, 255, 0.08);
+}
+.sola-menu-link:hover { background: rgba(255, 255, 255, 0.16); }
+.sola-user {
+  font-size: var(--sola-fs-sm);
+  color: var(--sola-text-subtle);
+}
+
+/* ============ Page layout ============ */
+.sola-page {
+  padding: 16px 20px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+.sola-page-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.sola-page-title {
+  font-size: var(--sola-fs-lg);
+  font-weight: 700;
+  color: var(--sola-text);
+}
+
+/* ============ Card ============ */
+.sola-card {
+  background: var(--sola-card);
+  border: 1px solid var(--sola-border);
+  border-radius: var(--sola-radius-lg);
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+.sola-card-head {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--sola-border-soft);
+  background: var(--sola-surface-alt);
+  font-size: var(--sola-fs-base);
+  font-weight: 700;
+  color: #333333;
+}
+.sola-card-body { padding: var(--sola-pad); }
+
+/* ============ Filter bar ============ */
+.sola-filter {
+  background: var(--sola-card);
+  border: 1px solid var(--sola-border);
+  border-radius: var(--sola-radius-lg);
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 10px;
+}
+.sola-filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 160px;
+}
+.sola-filter-field > label {
+  font-size: var(--sola-fs-sm);
+  font-weight: 700;
+  color: #333333;
+}
+.sola-filter-field > input,
+.sola-filter-field > select {
+  padding: 7px 10px;
+  font-size: var(--sola-fs-md);
+  border: 1px solid #CCCCCC;
+  border-radius: var(--sola-radius);
+  background: #ffffff;
+  color: var(--sola-text);
+}
+.sola-filter-actions {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+/* ============ Buttons ============ */
+.sola-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 16px;
+  font-size: var(--sola-fs-base);
+  font-weight: 700;
+  border-radius: var(--sola-radius);
+  cursor: pointer;
+  border: 1px solid transparent;
+  font-family: inherit;
+}
+.sola-btn-primary {
+  background: var(--sola-accent);
+  color: #ffffff;
+  border-color: var(--sola-accent);
+}
+.sola-btn-primary:hover { background: var(--sola-accent-hover); }
+.sola-btn-secondary {
+  background: #D1D5DB;
+  color: #222222;
+  border-color: #9CA3AF;
+}
+.sola-btn-ghost {
+  background: #ffffff;
+  color: var(--sola-text-muted);
+  border-color: var(--sola-border);
+}
+
+/* ============ Table ============ */
+.sola-table-wrap {
+  background: var(--sola-card);
+  border: 1px solid var(--sola-border);
+  border-radius: var(--sola-radius-lg);
+  overflow: hidden;
+}
+.sola-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--sola-fs-base);
+}
+.sola-table thead th {
+  text-align: left;
+  padding: 10px 12px;
+  color: #444444;
+  font-weight: 700;
+  font-size: var(--sola-fs-sm);
+  background: var(--sola-surface-alt);
+  border-bottom: 1px solid var(--sola-divider);
+}
+.sola-table tbody td {
+  padding: 10px 12px;
+  color: var(--sola-text);
+  border-bottom: 1px solid var(--sola-border-soft);
+}
+.sola-table tbody tr:last-child td { border-bottom: none; }
+.sola-table tbody tr:hover { background: #FAFBFC; cursor: pointer; }
+
+/* 2行スタックセル (担当者 + 日付) */
+.sola-cell-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  line-height: 1.3;
+}
+.sola-cell-stack .top {
+  font-size: var(--sola-fs-base);
+  color: var(--sola-text-muted);
+  font-weight: 600;
+}
+.sola-cell-stack .bottom {
+  font-size: var(--sola-fs-xs);
+  color: var(--sola-accent);
+  font-weight: 700;
+}
+
+/* ============ Badges ============ */
+.sola-badge {
+  display: inline-block;
+  font-size: var(--sola-fs-xs);
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 700;
+}
+.sola-badge-info    { background: var(--sola-info-bg);    color: var(--sola-info-text); }
+.sola-badge-success { background: var(--sola-success-bg); color: var(--sola-success-text); }
+.sola-badge-warning { background: var(--sola-warning-bg); color: var(--sola-warning-text); }
+.sola-badge-danger  { background: var(--sola-danger-bg);  color: var(--sola-danger-text); }
+.sola-badge-neutral { background: #F3F4F6; color: #374151; }

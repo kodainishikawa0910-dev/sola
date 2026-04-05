@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>見積書一覧 — sola</title>
+<link rel="stylesheet" href="/assets/sola.css">
+</head>
+<body>
+<div id="sola-header"></div>
+<script src="/assets/sola-common.js"></script>
+<script>renderSolaHeader();</script>
+
+<main class="sola-page">
+  <div class="sola-page-head">
+    <div class="sola-page-title">見積書一覧</div>
+    <button class="sola-btn sola-btn-primary">＋ 新規作成</button>
+  </div>
+
+  <div class="sola-filter">
+    <div class="sola-filter-field">
+      <label>ステータス</label>
+      <select id="f-status" oninput="filter()">
+        <option value="">すべて</option>
+        <option>作成中</option>
+        <option>承認待ち</option>
+        <option>承認済み</option>
+        <option>提出済み</option>
+        <option>受注済み</option>
+        <option>失注</option>
+      </select>
+    </div>
+    <div class="sola-filter-field">
+      <label>顧客名</label>
+      <input type="text" id="f-customer" placeholder="例：田中" oninput="filter()">
+    </div>
+    <div class="sola-filter-field">
+      <label>件名</label>
+      <input type="text" id="f-title" placeholder="例：内装" oninput="filter()">
+    </div>
+    <div class="sola-filter-field">
+      <label>担当者</label>
+      <select id="f-user" oninput="filter()">
+        <option value="">すべて</option>
+        <option>西川 公大</option>
+        <option>山田 太郎</option>
+        <option>鈴木 次郎</option>
+        <option>田村 花子</option>
+      </select>
+    </div>
+    <div class="sola-filter-actions">
+      <button class="sola-btn sola-btn-secondary" onclick="resetFilter()">リセット</button>
+      <button class="sola-btn sola-btn-primary">検索する</button>
+    </div>
+  </div>
+
+  <div class="sola-table-wrap">
+    <table class="sola-table">
+      <thead>
+        <tr>
+          <th style="width:110px">見積番号</th>
+          <th>件名 / 顧客</th>
+          <th style="width:120px;text-align:right">見積金額</th>
+          <th style="width:110px">ステータス</th>
+          <th style="width:140px">担当者 / 更新日</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+</main>
+
+<script>
+const rows = [
+  {no:'2026-0312', title:'田中邸 外構リフォーム',     customer:'田中 一郎 様',      amount:980000,  status:'承認待ち', user:'西川 公大', updated:'2026/04/04'},
+  {no:'2026-0308', title:'住吉モデルハウス外構工事', customer:'株式会社ハウスワン', amount:2400000, status:'受注済み', user:'西川 公大', updated:'2026/02/20'},
+  {no:'2026-0305', title:'JF新築工事 B棟',            customer:'JF株式会社',        amount:9800000, status:'提出済み', user:'田村 花子', updated:'2026/04/02'},
+  {no:'2026-0301', title:'鈴木邸 店舗改装',            customer:'鈴木 工務店',       amount:1850000, status:'作成中',   user:'山田 太郎', updated:'2026/04/03'},
+  {no:'2026-0228', title:'天王寺マンション改修',      customer:'佐藤 建設株式会社', amount:3800000, status:'受注済み', user:'田村 花子', updated:'2026/02/28'},
+  {no:'2026-0220', title:'高橋邸 増築工事',            customer:'高橋 美咲 様',      amount:4200000, status:'失注',     user:'山田 太郎', updated:'2026/03/10'},
+  {no:'2026-0215', title:'山本邸 新築工事',            customer:'山本 三郎 様',      amount:12000000, status:'受注済み', user:'田村 花子', updated:'2026/03/10'},
+  {no:'2026-0210', title:'田中邸 内装改修工事',        customer:'田中 一郎 様',      amount:1850000, status:'受注済み', user:'西川 公大', updated:'2026/02/15'},
+  {no:'2026-0205', title:'ハウスワン 住宅展示場',      customer:'株式会社ハウスワン', amount:1500000, status:'承認済み', user:'西川 公大', updated:'2026/03/25'},
+];
+
+const statusBadge = {
+  '作成中':   'neutral',
+  '承認待ち': 'warning',
+  '承認済み': 'info',
+  '提出済み': 'info',
+  '受注済み': 'success',
+  '失注':     'danger',
+};
+
+function fmtYen(n){ return '¥' + n.toLocaleString(); }
+
+function render(list) {
+  const tbody = document.getElementById('tbody');
+  if (list.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#9CA3AF;padding:24px">該当する見積書が見つかりませんでした</td></tr>';
+    return;
+  }
+  tbody.innerHTML = list.map(r => `
+    <tr>
+      <td style="font-family:ui-monospace,Consolas,monospace;color:#1D4ED8">${r.no}</td>
+      <td>
+        <div style="font-weight:700">${r.title}</div>
+        <div style="font-size:11px;color:#666">${r.customer}</div>
+      </td>
+      <td style="text-align:right;font-weight:700;color:#1E40AF">${fmtYen(r.amount)}</td>
+      <td><span class="sola-badge sola-badge-${statusBadge[r.status]||'neutral'}">${r.status}</span></td>
+      <td>
+        <div class="sola-cell-stack">
+          <span class="top">${r.user}</span>
+          <span class="bottom">${r.updated}</span>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function filter() {
+  const s = document.getElementById('f-status').value;
+  const c = document.getElementById('f-customer').value.toLowerCase();
+  const t = document.getElementById('f-title').value.toLowerCase();
+  const u = document.getElementById('f-user').value;
+  render(rows.filter(r =>
+    (!s || r.status === s) &&
+    (!c || r.customer.toLowerCase().includes(c)) &&
+    (!t || r.title.toLowerCase().includes(t)) &&
+    (!u || r.user === u)
+  ));
+}
+
+function resetFilter() {
+  document.getElementById('f-status').value = '';
+  document.getElementById('f-customer').value = '';
+  document.getElementById('f-title').value = '';
+  document.getElementById('f-user').value = '';
+  render(rows);
+}
+
+render(rows);
+</script>
+</body>
+</html>
