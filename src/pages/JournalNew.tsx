@@ -111,7 +111,7 @@ export default function JournalNew() {
   const [searchText, setSearchText] = useState('')
   const [selectedDate, setSelectedDate] = useState(() => new Date(2026, 3, 6)) // 2026-04-06
   const [viewMode, setViewMode] = useState<ViewMode>('day')
-  const [selectedStaff, setSelectedStaff] = useState('nishikawa')
+  const [selectedStaff, setSelectedStaff] = useState('nishikawa') // 営業部長デフォルト
 
   // 選択日+担当者のデータ
   const dayRows = useMemo(
