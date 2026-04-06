@@ -11,6 +11,8 @@ import Sites from './pages/Sites'
 import Purchases from './pages/Purchases'
 import Partners from './pages/Partners'
 import Invoices from './pages/Invoices'
+import Payments from './pages/Payments'
+import Settlements from './pages/Settlements'
 import Orders from './pages/Orders'
 import OrderRequests from './pages/OrderRequests'
 import Placeholder from './pages/Placeholder'
@@ -74,14 +76,8 @@ function App() {
 
         {/* 経理 */}
         <Route path="billing" element={<Invoices />} />
-        <Route
-          path="payments"
-          element={<Placeholder title="支払管理" accent="bg-pink-100" />}
-        />
-        <Route
-          path="settlements"
-          element={<Placeholder title="清算管理" accent="bg-fuchsia-100" />}
-        />
+        <Route path="payments" element={<Payments />} />
+        <Route path="settlements" element={<Settlements />} />
 
         {/* 分析 */}
         <Route
