@@ -2,8 +2,8 @@
 
 :root {
   /* Colors — Primary */
-  --sola-primary: #1F2937;       /* トップバー(ダークグレー) */
-  --sola-primary-hover: #374151;
+  --sola-primary: #1D4ED8;       /* トップバー(ブルー) */
+  --sola-primary-hover: #1E40AF;
   --sola-accent: #1D4ED8;        /* アクセント(ボタン/リンク) */
   --sola-accent-hover: #1E40AF;
 
@@ -85,21 +85,21 @@ body {
 }
 .sola-subtitle {
   font-size: var(--sola-fs-sm);
-  color: var(--sola-text-subtle);
+  color: rgba(255, 255, 255, 0.8);
 }
 .sola-menu-link {
   font-size: var(--sola-fs-sm);
   color: #ffffff;
   text-decoration: none;
   padding: 4px 10px;
-  border: 1px solid #4B5563;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: var(--sola-radius-sm);
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.1);
 }
 .sola-menu-link:hover { background: rgba(255, 255, 255, 0.16); }
 .sola-user {
   font-size: var(--sola-fs-sm);
-  color: var(--sola-text-subtle);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 /* ============ Page layout ============ */

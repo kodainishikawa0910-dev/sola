@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import RootLayout from './layouts/RootLayout'
 import Menu from './pages/Menu'
+import JournalNew from './pages/JournalNew'
 import Placeholder from './pages/Placeholder'
 
 function App() {
@@ -29,10 +30,7 @@ function App() {
           path="journal"
           element={<Placeholder title="日誌一覧" accent="bg-emerald-100" />}
         />
-        <Route
-          path="journal/new"
-          element={<Placeholder title="日誌登録" accent="bg-emerald-100" />}
-        />
+        <Route path="journal/new" element={<JournalNew />} />
 
         {/* 行動 */}
         <Route

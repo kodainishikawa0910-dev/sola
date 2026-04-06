@@ -419,22 +419,14 @@ export default function Menu() {
   return (
     <div className="menu-root">
       {/* 共有ヘッダー */}
-      <div className="sola-hdr">
-        <div className="sola-hdr-left">
-          <a href="/" className="sola-logo">
-            sola
-          </a>
-          <span className="sola-subtitle">
-            ラックプラス 総合業務管理システム
-          </span>
+      <div className="menu-hdr">
+        <div className="menu-hdr-left">
+          <a href="/" className="menu-hdr-logo">sola</a>
+          <span className="menu-hdr-sub">ラックプラス 総合業務管理システム</span>
         </div>
-        <div className="sola-hdr-center" />
-        <div className="sola-hdr-right">
-          <span className="sola-user">西川 公大 ｜ 0.9.9.17341</span>
-          <div className="sola-datetime">
-            <span className="sola-date">{dateStr}</span>
-            <span className="sola-time">{timeStr}</span>
-          </div>
+        <div className="menu-hdr-right">
+          <span className="menu-hdr-datetime">{dateStr} {timeStr}</span>
+          <span className="menu-hdr-user">西川 公大 ｜ 0.9.9.17341</span>
         </div>
       </div>
 

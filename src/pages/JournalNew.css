@@ -1,0 +1,622 @@
+/* 日誌登録ページ */
+.journal-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  font-family: "Segoe UI", "Hiragino Sans", "Meiryo", sans-serif;
+}
+
+/* ページヘッダー */
+.j-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  border-bottom: 1px solid #E5E7EB;
+  background: #fff;
+  flex-shrink: 0;
+}
+.j-breadcrumb {
+  font-size: 9px;
+  color: #6B7280;
+}
+.j-breadcrumb a {
+  color: #3B82F6;
+  text-decoration: none;
+}
+.j-breadcrumb a:hover { text-decoration: underline; }
+.j-page-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1E293B;
+}
+.j-person-area {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.j-person-label {
+  font-size: 10px;
+  color: #6B7280;
+}
+.j-person-select {
+  font-size: 11px;
+  padding: 4px 8px;
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+  background: #fff;
+  color: #1E293B;
+  font-family: inherit;
+}
+
+/* 日誌コンテンツ */
+.j-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px;
+  background: #fff;
+}
+
+/* 日付ヘッダー */
+.j-date-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.j-date-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.j-date-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.j-date-nav-btn {
+  width: 24px;
+  height: 24px;
+  border: 1px solid #D1D5DB;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #4B5563;
+  font-family: inherit;
+}
+.j-date-nav-btn:hover { background: #F3F4F6; }
+.j-date-display {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1E293B;
+}
+.j-day {
+  font-size: 12px;
+  font-weight: 400;
+  color: #6B7280;
+  margin-left: 4px;
+}
+.j-date-input {
+  font-size: 11px;
+  padding: 4px 8px;
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+  background: #fff;
+  color: #1E293B;
+  font-family: inherit;
+}
+
+/* 表示切替 (日/週/月) */
+.j-view-toggle {
+  display: flex;
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.j-view-btn {
+  padding: 4px 12px;
+  font-size: 10px;
+  font-weight: 600;
+  border: none;
+  background: #fff;
+  color: #4B5563;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.12s;
+  border-right: 1px solid #D1D5DB;
+}
+.j-view-btn:last-child { border-right: none; }
+.j-view-btn:hover { background: #F3F4F6; }
+.j-view-btn.active {
+  background: #1D4ED8;
+  color: #fff;
+}
+
+/* 今日ボタン */
+.j-today-btn {
+  padding: 4px 10px;
+  font-size: 10px;
+  font-weight: 500;
+  border: 1px solid #93C5FD;
+  border-radius: 4px;
+  background: #EFF6FF;
+  color: #1D4ED8;
+  cursor: pointer;
+  font-family: inherit;
+}
+.j-today-btn:hover { background: #DBEAFE; }
+
+/* ===== 週間表示: 7カラムグリッド ===== */
+.j-week-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  flex: 1;
+  min-height: 0;
+}
+.j-week-col {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #E5E7EB;
+  border-radius: 6px;
+  background: #fff;
+  min-height: 0;
+  overflow: hidden;
+}
+.j-week-col.today {
+  border-color: #3B82F6;
+  box-shadow: 0 0 0 1px #3B82F6;
+}
+.j-week-col.selected {
+  border-color: #1D4ED8;
+}
+.j-week-col-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  background: #F8FAFC;
+  border-bottom: 1px solid #E5E7EB;
+  cursor: pointer;
+  transition: background 0.1s;
+  flex-shrink: 0;
+}
+.j-week-col-header:hover { background: #EFF6FF; }
+.j-week-col.today .j-week-col-header {
+  background: #EFF6FF;
+}
+.j-week-col-header.sat .j-wch-dow { color: #3B82F6; }
+.j-week-col-header.sun .j-wch-dow { color: #DC2626; }
+.j-wch-dow {
+  font-size: 10px;
+  font-weight: 700;
+  color: #4B5563;
+}
+.j-wch-date {
+  font-size: 10px;
+  font-weight: 600;
+  color: #1E293B;
+}
+.j-week-col.today .j-wch-date { color: #1D4ED8; }
+.j-wch-count {
+  font-size: 8px;
+  color: #9CA3AF;
+  font-weight: 500;
+}
+.j-week-col-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.j-week-col-body::-webkit-scrollbar { width: 3px; }
+.j-week-col-body::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 2px; }
+.j-week-empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  color: #D1D5DB;
+  min-height: 60px;
+}
+.j-week-card {
+  padding: 6px 8px;
+  border: 1px solid #F1F5F9;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+.j-week-card:hover {
+  background: #F8FAFC;
+  border-color: #93C5FD;
+}
+.j-week-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3px;
+}
+.j-week-card-customer {
+  font-size: 9px;
+  font-weight: 700;
+  color: #1E293B;
+  line-height: 1.3;
+  margin-bottom: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.j-week-card-action {
+  font-size: 8px;
+  color: #6B7280;
+}
+.j-week-card-comment {
+  font-size: 8px;
+  color: #9CA3AF;
+  margin-top: 2px;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.j-add-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  background: #1D4ED8;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+  font-family: inherit;
+}
+.j-add-btn:hover { background: #1E40AF; }
+
+/* サマリー */
+.j-summary-bar {
+  display: flex;
+  gap: 16px;
+  padding: 8px 16px;
+  background: #F8FAFC;
+  border: 1px solid #E5E7EB;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+.j-summary-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: #6B7280;
+}
+.j-summary-count {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1E293B;
+}
+
+/* 行動テーブル */
+.j-action-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+}
+.j-action-table thead th {
+  font-size: 9px;
+  font-weight: 500;
+  color: #6B7280;
+  text-align: left;
+  padding: 6px 10px;
+  background: #F8FAFC;
+  border-bottom: 1px solid #E5E7EB;
+  white-space: nowrap;
+}
+.j-action-table tbody tr {
+  border-bottom: 1px solid #F1F5F9;
+  transition: background 0.1s;
+}
+.j-action-table tbody tr:hover { background: #F8FAFC; }
+.j-action-table tbody td {
+  font-size: 10px;
+  color: #1E293B;
+  padding: 8px 10px;
+  vertical-align: top;
+}
+
+/* 顧客名リンク */
+.j-customer-link {
+  color: #1D4ED8;
+  text-decoration: none;
+  font-weight: 500;
+}
+.j-customer-link:hover { text-decoration: underline; }
+.j-project-sub {
+  font-size: 8px;
+  color: #9CA3AF;
+  margin-top: 2px;
+}
+
+/* 行動種別バッジ */
+.j-badge {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 10px;
+  font-size: 8px;
+  font-weight: 500;
+}
+.j-badge-visit { background: #DBEAFE; color: #1D4ED8; }
+.j-badge-phone { background: #D1FAE5; color: #059669; }
+.j-badge-mail { background: #FEF3C7; color: #B45309; }
+.j-badge-web { background: #EDE9FE; color: #7C3AED; }
+.j-badge-other { background: #F1F5F9; color: #475569; }
+
+/* セレクト/入力 */
+.j-action-select {
+  font-size: 10px;
+  padding: 3px 6px;
+  border: 1px solid #D1D5DB;
+  border-radius: 4px;
+  background: #fff;
+  color: #1E293B;
+  width: 100%;
+  font-family: inherit;
+}
+.j-result-select {
+  font-size: 10px;
+  padding: 3px 6px;
+  border-radius: 4px;
+  border: 1px solid #D1D5DB;
+  background: #fff;
+  color: #1E293B;
+  font-family: inherit;
+}
+.j-result-good { color: #059669; font-weight: 500; }
+.j-result-normal { color: #1E293B; }
+.j-result-bad { color: #DC2626; font-weight: 500; }
+.j-result-none { color: #6B7280; }
+
+.j-comment-input {
+  font-size: 10px;
+  padding: 4px 6px;
+  border: 1px solid #D1D5DB;
+  border-radius: 4px;
+  background: #fff;
+  color: #1E293B;
+  width: 100%;
+  min-height: 32px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+/* 見込み度 */
+.j-rank-a { color: #DC2626; font-weight: 600; }
+.j-rank-b { color: #F59E0B; font-weight: 600; }
+.j-rank-c { color: #6B7280; font-weight: 500; }
+
+/* 削除ボタン */
+.j-delete-btn {
+  width: 20px;
+  height: 20px;
+  border: none;
+  background: none;
+  color: #D1D5DB;
+  cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-family: inherit;
+}
+.j-delete-btn:hover {
+  color: #EF4444;
+  background: #FEF2F2;
+}
+
+/* 空行追加 */
+.j-empty-row {
+  border: 2px dashed #E5E7EB;
+  border-radius: 6px;
+  padding: 16px;
+  text-align: center;
+  margin-top: 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.j-empty-row:hover {
+  border-color: #93C5FD;
+  background: #EFF6FF;
+}
+.j-empty-row-text {
+  font-size: 10px;
+  color: #9CA3AF;
+}
+
+/* フッター */
+.j-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-top: 1px solid #E5E7EB;
+  background: #FAFBFC;
+  flex-shrink: 0;
+}
+.j-btn-cancel {
+  padding: 6px 20px;
+  font-size: 10px;
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+  background: #fff;
+  color: #4B5563;
+  cursor: pointer;
+  font-weight: 500;
+  font-family: inherit;
+}
+.j-btn-cancel:hover { background: #F3F4F6; }
+.j-btn-draft {
+  padding: 6px 20px;
+  font-size: 10px;
+  border: 1px solid #93C5FD;
+  border-radius: 6px;
+  background: #EFF6FF;
+  color: #1D4ED8;
+  cursor: pointer;
+  font-weight: 500;
+  font-family: inherit;
+}
+.j-btn-draft:hover { background: #DBEAFE; }
+.j-btn-save {
+  padding: 6px 24px;
+  font-size: 10px;
+  border: none;
+  border-radius: 6px;
+  background: #1D4ED8;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 500;
+  font-family: inherit;
+}
+.j-btn-save:hover { background: #1E40AF; }
+
+/* ====== 顧客検索モーダル ====== */
+.j-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.j-modal {
+  width: 600px;
+  max-height: 520px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+}
+.j-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  border-bottom: 1px solid #E5E7EB;
+}
+.j-modal-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1E293B;
+}
+.j-modal-close {
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: none;
+  color: #9CA3AF;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+}
+.j-modal-close:hover {
+  background: #F3F4F6;
+  color: #4B5563;
+}
+.j-modal-search {
+  padding: 12px 18px;
+  border-bottom: 1px solid #E5E7EB;
+}
+.j-modal-search-input {
+  width: 100%;
+  font-size: 11px;
+  padding: 6px 10px;
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+  background: #fff;
+  color: #1E293B;
+  font-family: inherit;
+}
+.j-modal-search-input:focus {
+  outline: none;
+  border-color: #3B82F6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+}
+.j-modal-body {
+  flex: 1;
+  overflow-y: auto;
+}
+.j-customer-row {
+  display: grid;
+  grid-template-columns: 1fr 100px 80px 70px;
+  padding: 8px 18px;
+  border-bottom: 1px solid #F1F5F9;
+  cursor: pointer;
+  transition: background 0.1s;
+  align-items: center;
+}
+.j-customer-row:hover { background: #EFF6FF; }
+.j-cr-name {
+  font-size: 11px;
+  font-weight: 500;
+  color: #1E293B;
+}
+.j-cr-sub {
+  font-size: 9px;
+  color: #6B7280;
+}
+.j-cr-area {
+  font-size: 10px;
+  color: #6B7280;
+}
+.j-cr-status {
+  font-size: 9px;
+}
+.j-cr-select-btn {
+  font-size: 9px;
+  padding: 3px 10px;
+  border: 1px solid #3B82F6;
+  border-radius: 4px;
+  background: #fff;
+  color: #3B82F6;
+  cursor: pointer;
+  font-weight: 500;
+  font-family: inherit;
+}
+.j-cr-select-btn:hover {
+  background: #3B82F6;
+  color: #fff;
+}
+.j-modal-footer {
+  padding: 10px 18px;
+  border-top: 1px solid #E5E7EB;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 9px;
+  color: #9CA3AF;
+}

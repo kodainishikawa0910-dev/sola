@@ -17,39 +17,45 @@
   box-sizing: border-box;
 }
 
-/* ===== 共有ヘッダー ===== */
-.menu-root .sola-hdr { flex-shrink: 0; }
-.menu-root .sola-hdr-right {
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 2px;
+/* ===== 共有ヘッダー (36px, 日誌と統一) ===== */
+.menu-root .menu-hdr {
+  background: #1D4ED8;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  height: 36px;
+  flex-shrink: 0;
 }
-.menu-root .sola-hdr-center {
+.menu-root .menu-hdr-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.menu-root .menu-hdr-logo {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  text-decoration: none;
+  letter-spacing: 1px;
+}
+.menu-root .menu-hdr-sub {
+  font-size: 8px;
+  opacity: 0.8;
+}
+.menu-root .menu-hdr-right {
   display: flex;
   align-items: center;
   gap: 16px;
-  color: #E5E7EB;
-  flex: 1;
-  justify-content: center;
+  font-size: 9px;
 }
-.menu-root .sola-datetime {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  line-height: 1.2;
-}
-.menu-root .sola-date {
-  font-size: 11px;
-  color: #9CA3AF;
-  font-weight: 600;
-}
-.menu-root .sola-time {
-  font-size: 11px;
-  color: #9CA3AF;
-  font-weight: 600;
+.menu-root .menu-hdr-datetime {
+  opacity: 0.85;
   font-variant-numeric: tabular-nums;
-  letter-spacing: 0.02em;
-  margin-right: 1em;
+}
+.menu-root .menu-hdr-user {
+  opacity: 0.9;
 }
 
 /* ===== 通知バー ===== */
