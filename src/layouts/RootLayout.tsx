@@ -46,7 +46,6 @@ const menuSections: MenuSection[] = [
     items: [
       { label: '見積書一覧', href: '/estimates' },
       { label: '発注管理一覧', href: '/purchases' },
-      { label: '発注管理一覧', href: '/purchases' },
     ],
   },
   {
