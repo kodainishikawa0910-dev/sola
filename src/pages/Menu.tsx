@@ -136,7 +136,7 @@ const menuSections: MenuSection[] = [
     title: '見積・発注管理',
     dot: '#F59E0B',
     items: [
-      { label: '見積書一覧', href: '/estimates.html' },
+      { label: '見積書一覧', href: '/estimates' },
       { label: '見積依頼申請一覧', href: '/estimates/requests' },
       { label: '新規作成', href: '/estimates/new' },
       { label: '追加作成', href: '/estimates/add' },

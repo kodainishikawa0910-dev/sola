@@ -1,0 +1,178 @@
+/* 見積書一覧 */
+.est-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  font-family: "Segoe UI", "Hiragino Sans", "Meiryo", sans-serif;
+}
+.est-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  border-bottom: 1px solid #E5E7EB;
+  background: #fff;
+  flex-shrink: 0;
+}
+.est-breadcrumb { font-size: 9px; color: #6B7280; }
+.est-breadcrumb a { color: #3B82F6; text-decoration: none; }
+.est-breadcrumb a:hover { text-decoration: underline; }
+.est-bc-current { font-weight: 700; color: #1E293B; }
+.est-page-title { font-size: 14px; font-weight: 600; color: #1E293B; }
+.est-new-btn {
+  padding: 7px 16px;
+  font-size: 11px;
+  font-weight: 700;
+  background: #1D4ED8;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.est-new-btn:hover { background: #1E40AF; }
+
+.est-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px;
+  background: #fff;
+}
+
+/* フィルタ */
+.est-filter {
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  padding: 14px;
+  margin-bottom: 14px;
+  background: #F8FAFC;
+}
+.est-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.est-filter-field { display: flex; flex-direction: column; gap: 4px; }
+.est-filter-field label { font-size: 10px; font-weight: 700; color: #4B5563; }
+.est-filter-field input,
+.est-filter-field select {
+  padding: 6px 8px;
+  font-size: 11px;
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+  background: #fff;
+  color: #1E293B;
+  font-family: inherit;
+}
+.est-filter-field input:focus,
+.est-filter-field select:focus {
+  outline: none;
+  border-color: #3B82F6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+}
+.est-filter-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.est-reset-btn {
+  padding: 5px 14px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #4B5563;
+  background: #fff;
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.est-reset-btn:hover { background: #F3F4F6; }
+.est-filter-result {
+  font-size: 10px;
+  color: #6B7280;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #E5E7EB;
+}
+
+/* テーブル */
+.est-table-wrap {
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.est-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.est-table thead th {
+  text-align: left;
+  font-size: 9px;
+  font-weight: 600;
+  color: #6B7280;
+  padding: 8px 10px;
+  background: #F8FAFC;
+  border-bottom: 1px solid #E5E7EB;
+  white-space: nowrap;
+}
+.est-table tbody tr {
+  border-bottom: 1px solid #F1F5F9;
+  transition: background 0.1s;
+  cursor: pointer;
+}
+.est-table tbody tr:hover { background: #F8FAFC; }
+.est-table tbody tr:last-child { border-bottom: none; }
+.est-table tbody td {
+  padding: 8px 10px;
+  font-size: 11px;
+  color: #1E293B;
+  vertical-align: middle;
+}
+.est-no {
+  font-family: ui-monospace, Consolas, monospace;
+  color: #1D4ED8;
+  font-size: 10px;
+  font-weight: 600;
+}
+.est-title {
+  font-weight: 700;
+  color: #1E293B;
+  font-size: 12px;
+}
+.est-table tbody tr:hover .est-title { color: #1D4ED8; }
+.est-customer {
+  font-size: 10px;
+  color: #6B7280;
+  margin-top: 1px;
+}
+.est-amount {
+  text-align: right;
+  font-weight: 700;
+  color: #1E40AF;
+  font-variant-numeric: tabular-nums;
+}
+.est-status {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 9px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.est-staff {
+  font-size: 10px;
+  color: #4B5563;
+}
+.est-date {
+  font-size: 10px;
+  color: #9CA3AF;
+  font-variant-numeric: tabular-nums;
+}
+.est-empty {
+  text-align: center;
+  color: #9CA3AF;
+  padding: 24px;
+  font-size: 12px;
+}

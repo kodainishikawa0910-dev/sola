@@ -3,6 +3,7 @@ import RootLayout from './layouts/RootLayout'
 import Menu from './pages/Menu'
 import JournalNew from './pages/JournalNew'
 import Customers from './pages/Customers'
+import Estimates from './pages/Estimates'
 import Placeholder from './pages/Placeholder'
 
 function App() {
@@ -74,10 +75,7 @@ function App() {
         />
 
         {/* 見積・発注 */}
-        <Route
-          path="estimates"
-          element={<Placeholder title="見積書一覧" accent="bg-lime-100" />}
-        />
+        <Route path="estimates" element={<Estimates />} />
         <Route
           path="purchases"
           element={<Placeholder title="発注一覧" accent="bg-lime-100" />}
