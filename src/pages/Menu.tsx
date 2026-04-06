@@ -488,6 +488,56 @@ export default function Menu() {
 
         {/* メインダッシュボード */}
         <div className="main-area">
+          {/* Row 1: 通達 + 天気 */}
+          <div className="dash-row r1">
+            <div className="card">
+              <div className="card-head">
+                <span className="card-title">
+                  <span className="icon">📢</span> 社内通達
+                </span>
+                <span className="card-more">すべて見る →</span>
+              </div>
+              <ul className="notice-list">
+                {notices.map((n, i) => (
+                  <li key={i}>
+                    <span className="notice-date">{n.date}</span>
+                    <span className={`notice-tag ${n.tagClass}`}>{n.tag}</span>
+                    <span className="notice-text">{n.text}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="card">
+              <div className="card-head">
+                <span className="card-title">
+                  <span className="icon">🌤</span> 週間天気
+                </span>
+                <select
+                  className="weather-pref-select"
+                  value={pref}
+                  onChange={(e) => setPref(e.target.value)}
+                >
+                  {prefectures.map((p) => (
+                    <option key={p.name} value={p.name}>
+                      {p.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="weather-grid">
+                {weekWeather.map((w, i) => (
+                  <div className={`w-day${i === 0 ? ' today' : ''}`} key={w.date}>
+                    <div className="w-label">{i === 0 ? '今日' : w.dow}</div>
+                    <div className="w-icon">{w.icon}</div>
+                    <div className="w-temp">
+                      {w.hi}°<span>/{w.lo}°</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
           {/* 進行中の工事一覧 */}
           <div className="construction-card">
             <div className="card-head">
@@ -586,56 +636,6 @@ export default function Menu() {
                 ))}
               </tbody>
             </table>
-          </div>
-
-          {/* Row 1: 通達 + 天気 */}
-          <div className="dash-row r1">
-            <div className="card">
-              <div className="card-head">
-                <span className="card-title">
-                  <span className="icon">📢</span> 社内通達
-                </span>
-                <span className="card-more">すべて見る →</span>
-              </div>
-              <ul className="notice-list">
-                {notices.map((n, i) => (
-                  <li key={i}>
-                    <span className="notice-date">{n.date}</span>
-                    <span className={`notice-tag ${n.tagClass}`}>{n.tag}</span>
-                    <span className="notice-text">{n.text}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="card">
-              <div className="card-head">
-                <span className="card-title">
-                  <span className="icon">🌤</span> 週間天気
-                </span>
-                <select
-                  className="weather-pref-select"
-                  value={pref}
-                  onChange={(e) => setPref(e.target.value)}
-                >
-                  {prefectures.map((p) => (
-                    <option key={p.name} value={p.name}>
-                      {p.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="weather-grid">
-                {weekWeather.map((w, i) => (
-                  <div className={`w-day${i === 0 ? ' today' : ''}`} key={w.date}>
-                    <div className="w-label">{i === 0 ? '今日' : w.dow}</div>
-                    <div className="w-icon">{w.icon}</div>
-                    <div className="w-temp">
-                      {w.hi}°<span>/{w.lo}°</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
 
           {/* Row 2: 今日の予定 + 休暇 + 外部リンク */}
