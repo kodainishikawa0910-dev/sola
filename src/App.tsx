@@ -18,6 +18,7 @@ import OrderRequests from './pages/OrderRequests'
 import Analytics from './pages/Analytics'
 import Messages from './pages/Messages'
 import Placeholder from './pages/Placeholder'
+import Misc from './pages/Misc'
 
 function App() {
   return (
@@ -65,10 +66,15 @@ function App() {
         {/* 分析 */}
         <Route path="analytics/*" element={<Analytics />} />
 
-        <Route
-          path="*"
-          element={<Placeholder title="ページが見つかりません" />}
-        />
+        {/* その他 */}
+        <Route path="settings" element={<Misc />} />
+        <Route path="org" element={<Misc />} />
+        <Route path="misc/*" element={<Misc />} />
+        <Route path="deadlines" element={<Misc />} />
+        <Route path="cashflow" element={<Misc />} />
+        <Route path="maintenance" element={<Misc />} />
+
+        <Route path="*" element={<Misc />} />
       </Route>
     </Routes>
   )
