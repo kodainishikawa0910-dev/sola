@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import RootLayout from './layouts/RootLayout'
 import Menu from './pages/Menu'
 import JournalNew from './pages/JournalNew'
+import Customers from './pages/Customers'
 import Placeholder from './pages/Placeholder'
 
 function App() {
@@ -12,18 +13,8 @@ function App() {
 
       <Route element={<RootLayout />}>
         {/* 顧客管理 */}
-        <Route
-          path="customers"
-          element={<Placeholder title="顧客一覧" accent="bg-sky-100" />}
-        />
-        <Route
-          path="customers/new"
-          element={<Placeholder title="顧客新規登録" accent="bg-sky-100" />}
-        />
-        <Route
-          path="customers/:id"
-          element={<Placeholder title="顧客詳細" accent="bg-sky-100" />}
-        />
+        <Route path="customers" element={<Customers />} />
+        <Route path="customers/*" element={<Customers />} />
 
         {/* 日誌 */}
         <Route

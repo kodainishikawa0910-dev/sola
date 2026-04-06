@@ -104,7 +104,7 @@ const menuSections: MenuSection[] = [
     title: '顧客管理',
     dot: '#22C55E',
     items: [
-      { label: '顧客一覧', href: '/customers.html' },
+      { label: '顧客一覧', href: '/customers' },
       { label: '変更', href: '/customers/edit' },
     ],
   },

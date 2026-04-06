@@ -1,5 +1,15 @@
 import { useState, useMemo } from 'react'
 import './JournalNew.css'
+import {
+  journalEntries as masterJournal,
+  customers as masterCustomers,
+  sites as masterSites,
+  staff as masterStaff,
+  getStaff,
+  getSite,
+  getCustomer,
+  type JournalEntry,
+} from '../data/master'
 
 const DOW = ['日', '月', '火', '水', '木', '金', '土']
 
@@ -55,7 +65,10 @@ const resultOptions = [
 
 type ActionRow = {
   id: number
-  date: string // 'YYYY-MM-DD'
+  date: string
+  staffId: string
+  customerId: string
+  siteId: string
   customer: string
   project: string
   type: string
@@ -66,35 +79,31 @@ type ActionRow = {
   rank: string
 }
 
-const initialRows: ActionRow[] = [
-  // 4/6 (月)
-  { id: 1, date: '2026-04-06', customer: '株式会社 山田工務店', project: '梅田マンション内装工事', type: '訪問', typeClass: 'visit', action: '進捗確認・打合せ', result: 'good', comment: '追加工事の相談あり。洗面所タイル張替の概算見積を次回提出予定。', rank: 'A' },
-  { id: 2, date: '2026-04-06', customer: '△△管理組合', project: '△△マンション外壁改修', type: '電話', typeClass: 'phone', action: '見積提出', result: 'normal', comment: '見積書を郵送済み。来週返答予定とのこと。', rank: 'B' },
-  { id: 3, date: '2026-04-06', customer: '□□ビル管理', project: '□□ビル テナント改装', type: 'メール', typeClass: 'mail', action: '定期フォロー', result: 'none', comment: '工事スケジュール確認のメール送信。返信待ち。', rank: 'C' },
-  // 4/7 (火)
-  { id: 4, date: '2026-04-07', customer: '○○邸（個人）', project: '○○邸 キッチンリフォーム', type: '訪問', typeClass: 'visit', action: '進捗確認・打合せ', result: 'good', comment: 'キッチン設置完了。残工事確認。', rank: 'A' },
-  { id: 5, date: '2026-04-07', customer: '株式会社 佐藤建設', project: '共同住宅新築工事', type: '電話', typeClass: 'phone', action: '新規挨拶', result: 'normal', comment: '来週訪問のアポ取得。', rank: 'B' },
-  // 4/8 (水)
-  { id: 6, date: '2026-04-08', customer: '株式会社 山田工務店', project: '梅田マンション内装工事', type: '訪問', typeClass: 'visit', action: '見積提出', result: 'good', comment: '洗面所タイル張替の見積提出。前向き。', rank: 'A' },
-  // 4/9 (木)
-  { id: 7, date: '2026-04-09', customer: '有限会社 中村不動産', project: 'テナントビル改修', type: 'メール', typeClass: 'mail', action: '定期フォロー', result: 'none', comment: '改修計画のヒアリング依頼メール送付。', rank: 'C' },
-  { id: 8, date: '2026-04-09', customer: '△△管理組合', project: '△△マンション外壁改修', type: '訪問', typeClass: 'visit', action: '契約手続き', result: 'good', comment: '契約書持参。署名完了。', rank: 'A' },
-  // 4/10 (金)
-  { id: 9, date: '2026-04-10', customer: '株式会社 佐藤建設', project: '共同住宅新築工事', type: '訪問', typeClass: 'visit', action: '新規挨拶', result: 'normal', comment: '初回訪問。現場を確認。', rank: 'B' },
-  { id: 10, date: '2026-04-10', customer: '□□ビル管理', project: '□□ビル テナント改装', type: '電話', typeClass: 'phone', action: '進捗確認・打合せ', result: 'normal', comment: 'テナント側と日程調整。', rank: 'B' },
-  { id: 11, date: '2026-04-10', customer: '○○邸（個人）', project: '○○邸 キッチンリフォーム', type: 'メール', typeClass: 'mail', action: 'クレーム対応', result: 'bad', comment: '水栓の不具合報告。至急対応手配。', rank: 'A' },
-  // 4/11 (土) — なし
-  // 4/12 (日) — なし
-]
+// マスタデータからActionRowに変換
+function toActionRows(entries: JournalEntry[]): ActionRow[] {
+  return entries.map((j) => ({
+    ...j,
+    customer: getCustomer(j.customerId)?.kanji ?? '—',
+    project: getSite(j.siteId)?.name ?? '—',
+  }))
+}
 
-const customers = [
-  { name: '株式会社 山田工務店', address: '大阪市北区梅田1-2-3', area: '大阪府', status: '取引中', statusColor: '#059669', project: '梅田マンション内装工事' },
-  { name: '△△管理組合', address: '大阪市中央区本町4-5-6', area: '大阪府', status: '取引中', statusColor: '#059669', project: '△△マンション外壁改修' },
-  { name: '□□ビル管理', address: '大阪市西区江戸堀7-8-9', area: '大阪府', status: '見込み', statusColor: '#F59E0B', project: '□□ビル テナント改装' },
-  { name: '○○邸（個人）', address: '豊中市新千里東町10-11', area: '大阪府', status: '取引中', statusColor: '#059669', project: '○○邸 キッチンリフォーム' },
-  { name: '株式会社 佐藤建設', address: '神戸市中央区三宮町12-13', area: '兵庫県', status: '取引中', statusColor: '#059669', project: '共同住宅新築工事' },
-  { name: '有限会社 中村不動産', address: '京都市下京区四条通14-15', area: '京都府', status: '休眠', statusColor: '#6B7280', project: 'テナントビル改修' },
-]
+const initialRows: ActionRow[] = toActionRows(masterJournal)
+
+// モーダル用顧客リスト（マスタから）
+const modalCustomers = masterCustomers.map((c) => {
+  const firstSite = masterSites.find((s) => s.customerId === c.id)
+  return {
+    id: c.id,
+    name: c.kanji,
+    address: c.addr,
+    area: c.addrShort,
+    status: '取引中',
+    statusColor: '#059669',
+    project: firstSite?.name ?? '—',
+    siteId: firstSite?.id ?? '',
+  }
+})
 
 export default function JournalNew() {
   const [rows, setRows] = useState<ActionRow[]>(initialRows)
@@ -102,11 +111,12 @@ export default function JournalNew() {
   const [searchText, setSearchText] = useState('')
   const [selectedDate, setSelectedDate] = useState(() => new Date(2026, 3, 6)) // 2026-04-06
   const [viewMode, setViewMode] = useState<ViewMode>('day')
+  const [selectedStaff, setSelectedStaff] = useState('nishikawa')
 
-  // 選択日のデータ
+  // 選択日+担当者のデータ
   const dayRows = useMemo(
-    () => rows.filter((r) => r.date === toDateStr(selectedDate)),
-    [rows, selectedDate]
+    () => rows.filter((r) => r.date === toDateStr(selectedDate) && r.staffId === selectedStaff),
+    [rows, selectedDate, selectedStaff]
   )
   const visitCount = dayRows.filter((r) => r.typeClass === 'visit').length
   const phoneCount = dayRows.filter((r) => r.typeClass === 'phone').length
@@ -140,18 +150,21 @@ export default function JournalNew() {
     if (!isNaN(d.getTime())) setSelectedDate(d)
   }
 
-  // 日別行データ取得
-  const rowsForDate = (ds: string) => rows.filter((r) => r.date === ds)
+  // 日別行データ取得（担当者フィルタ付き）
+  const rowsForDate = (ds: string) => rows.filter((r) => r.date === ds && r.staffId === selectedStaff)
 
   const deleteRow = (id: number) => setRows((prev) => prev.filter((r) => r.id !== id))
 
   const updateRow = (id: number, field: keyof ActionRow, value: string) =>
     setRows((prev) => prev.map((r) => (r.id === id ? { ...r, [field]: value } : r)))
 
-  const addCustomer = (c: (typeof customers)[0]) => {
+  const addCustomer = (c: (typeof modalCustomers)[0]) => {
     const newRow: ActionRow = {
       id: Date.now(),
       date: toDateStr(selectedDate),
+      staffId: selectedStaff,
+      customerId: c.id,
+      siteId: c.siteId,
       customer: c.name,
       project: c.project,
       type: '訪問',
@@ -166,7 +179,7 @@ export default function JournalNew() {
     setSearchText('')
   }
 
-  const filtered = customers.filter(
+  const filtered = modalCustomers.filter(
     (c) =>
       c.name.includes(searchText) ||
       c.address.includes(searchText) ||
@@ -185,10 +198,10 @@ export default function JournalNew() {
         </div>
         <div className="j-person-area">
           <span className="j-person-label">担当者</span>
-          <select className="j-person-select">
-            <option>西川 公大</option>
-            <option>田中 一郎</option>
-            <option>鈴木 太郎</option>
+          <select className="j-person-select" value={selectedStaff} onChange={(e) => setSelectedStaff(e.target.value)}>
+            {masterStaff.map((s) => (
+              <option key={s.id} value={s.id}>{s.name}</option>
+            ))}
           </select>
         </div>
       </div>
@@ -415,7 +428,7 @@ export default function JournalNew() {
               ))}
             </div>
             <div className="j-modal-footer">
-              <span>全 {customers.length} 件中 {filtered.length} 件表示</span>
+              <span>全 {modalCustomers.length} 件中 {filtered.length} 件表示</span>
               <span>クリックまたは「選択」で行動に追加されます</span>
             </div>
           </div>
