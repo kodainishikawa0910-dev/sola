@@ -4,11 +4,8 @@ import {
   customers as allCustomers,
   sites,
   journalEntries,
-  invoices,
   getStaff,
   getSitesForCustomer,
-  getInvoicesForCustomer,
-  type Customer,
 } from '../data/master'
 
 type Page = 'list' | 'detail'
@@ -42,12 +39,6 @@ export default function Customers() {
       .filter((j) => j.customerId === selected.id)
       .sort((a, b) => b.date.localeCompare(a.date))
   }, [selected])
-
-  // 選択顧客の請求
-  const custInvoices = useMemo(
-    () => (selected ? getInvoicesForCustomer(selected.id) : []),
-    [selected]
-  )
 
   // 最終接触日
   const lastContact = (custId: string) => {

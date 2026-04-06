@@ -7,7 +7,6 @@ export default function Estimates() {
 
   const filtered = useMemo(() => estimates.filter((e) => {
     const cust = getCustomer(e.customerId)
-    const s = getStaff(e.staffId)
     return (
       (!filter.status || e.status === filter.status) &&
       (!filter.customer || (cust?.kanji ?? '').includes(filter.customer)) &&
