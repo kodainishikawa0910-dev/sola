@@ -38,6 +38,7 @@ const menuSections: MenuSection[] = [
       { label: '受注一覧', href: '/orders' },
       { label: '受注申請一覧', href: '/orders/requests' },
       { label: '完了報告', href: '/sites/reports' },
+      { label: '受注キャンセル処理', href: '/orders/cancel' },
     ],
   },
   {
@@ -45,7 +46,12 @@ const menuSections: MenuSection[] = [
     dot: '#A855F7',
     items: [
       { label: '見積書一覧', href: '/estimates' },
-      { label: '発注管理一覧', href: '/purchases' },
+      { label: '見積依頼申請一覧', href: '/estimates/requests' },
+      { label: '新規作成', href: '/estimates/new' },
+      { label: '追加作成', href: '/estimates/add' },
+      { label: '簡易見積書作成', href: '/estimates/quick' },
+      { label: '発注一覧', href: '/purchases' },
+      { label: '発注申請一覧', href: '/purchases/requests' },
     ],
   },
   {
@@ -53,14 +59,79 @@ const menuSections: MenuSection[] = [
     dot: '#14B8A6',
     items: [
       { label: '協力会社一覧', href: '/partners' },
+      { label: '変更', href: '/partners/edit' },
     ],
   },
   {
     title: '請求管理',
     dot: '#F97316',
     items: [
-      { label: '売上請求書一覧', href: '/billing/invoices' },
+      { label: '売上請求書一覧', href: '/billing' },
+      { label: '売上請求書発行', href: '/billing/invoices/new' },
       { label: '売上入金管理', href: '/billing/receipts' },
+    ],
+  },
+  {
+    title: '支払管理',
+    dot: '#F97316',
+    items: [
+      { label: '支払請求書一覧', href: '/payments' },
+      { label: '支払請求書登録', href: '/payments/invoices/new' },
+      { label: '小口経費一覧', href: '/payments/petty' },
+      { label: '小口経費登録', href: '/payments/petty/new' },
+    ],
+  },
+  {
+    title: '清算管理',
+    dot: '#F59E0B',
+    items: [
+      { label: '清算書一覧', href: '/settlements' },
+    ],
+  },
+  {
+    title: 'メンテナンス管理',
+    dot: '#22C55E',
+    items: [
+      { label: 'メンテナンス一覧', href: '/maintenance' },
+      { label: '変更', href: '/maintenance/edit' },
+    ],
+  },
+  {
+    title: '期限管理',
+    dot: '#C9272D',
+    items: [
+      { label: '期限管理一覧', href: '/deadlines' },
+    ],
+  },
+  {
+    title: '資金繰り管理',
+    dot: '#1D4ED8',
+    items: [
+      { label: '月別資金繰り表', href: '/cashflow' },
+    ],
+  },
+  {
+    title: '分析・レポート',
+    dot: '#1D4ED8',
+    items: [
+      { label: '営業担当別受注状況', href: '/analytics/sales-by-rep' },
+      { label: '工事担当別利益率', href: '/analytics/site-by-rep' },
+      { label: '積算担当別受託状況', href: '/analytics/design-by-rep' },
+      { label: '顧客ランキング', href: '/analytics/customer-ranking' },
+      { label: '協力会社別発注状況', href: '/analytics/partner-orders' },
+      { label: '月別売上推移', href: '/analytics/sales-trend' },
+      { label: '見積→受注転換率', href: '/analytics/conversion' },
+    ],
+  },
+  {
+    title: 'その他',
+    dot: '#888',
+    items: [
+      { label: '業務フロー', href: '/workflow.html' },
+      { label: '組織図', href: '/org' },
+      { label: '郵送宛名印刷', href: '/misc/mail-print' },
+      { label: '近隣挨拶文作成', href: '/misc/greeting' },
+      { label: '環境設定', href: '/settings' },
     ],
   },
 ]
