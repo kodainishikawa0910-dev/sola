@@ -1,0 +1,228 @@
+/* 行動頻度表 */
+.af-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  font-family: "Segoe UI", "Hiragino Sans", "Meiryo", sans-serif;
+}
+.af-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  border-bottom: 1px solid #E5E7EB;
+  background: #fff;
+  flex-shrink: 0;
+}
+.af-breadcrumb { font-size: 9px; color: #6B7280; }
+.af-breadcrumb a { color: #3B82F6; text-decoration: none; }
+.af-breadcrumb a:hover { text-decoration: underline; }
+.af-bc-current { font-weight: 700; color: #1E293B; }
+.af-page-title { font-size: 14px; font-weight: 600; color: #1E293B; }
+
+.af-content {
+  flex: 1;
+  overflow: auto;
+  padding: 16px 20px;
+  background: #fff;
+}
+
+/* コントロール */
+.af-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.af-month-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.af-nav-btn {
+  width: 24px;
+  height: 24px;
+  border: 1px solid #D1D5DB;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #4B5563;
+  font-family: inherit;
+}
+.af-nav-btn:hover { background: #F3F4F6; }
+.af-month-label {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1E293B;
+  min-width: 100px;
+  text-align: center;
+}
+.af-month-input {
+  font-size: 11px;
+  padding: 4px 8px;
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+  background: #fff;
+  color: #1E293B;
+  font-family: inherit;
+}
+
+.af-view-toggle {
+  display: flex;
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.af-view-btn {
+  padding: 5px 14px;
+  font-size: 10px;
+  font-weight: 600;
+  border: none;
+  background: #fff;
+  color: #4B5563;
+  cursor: pointer;
+  font-family: inherit;
+  border-right: 1px solid #D1D5DB;
+  transition: all 0.12s;
+}
+.af-view-btn:last-child { border-right: none; }
+.af-view-btn:hover { background: #F3F4F6; }
+.af-view-btn.active {
+  background: #1D4ED8;
+  color: #fff;
+}
+
+/* テーブル */
+.af-table-wrap {
+  overflow-x: auto;
+}
+.af-empty {
+  border: 1px dashed #D1D5DB;
+  border-radius: 8px;
+  padding: 24px;
+  text-align: center;
+  color: #9CA3AF;
+  font-size: 12px;
+}
+.af-table {
+  border-collapse: collapse;
+  min-width: 100%;
+}
+.af-table thead th {
+  font-size: 9px;
+  font-weight: 600;
+  color: #6B7280;
+  padding: 4px 6px;
+  background: #F8FAFC;
+  border-bottom: 2px solid #E5E7EB;
+  white-space: nowrap;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.af-th-fixed {
+  text-align: left !important;
+  min-width: 90px;
+  position: sticky;
+  left: 0;
+  z-index: 3;
+  background: #F8FAFC;
+}
+.af-th-fixed2 {
+  text-align: left !important;
+  min-width: 90px;
+  position: sticky;
+  left: 90px;
+  z-index: 3;
+  background: #F8FAFC;
+}
+.af-th-total {
+  min-width: 36px;
+  font-weight: 700 !important;
+  color: #1E293B !important;
+}
+.af-th-date {
+  min-width: 28px;
+}
+.af-th-date.sat { color: #3B82F6 !important; }
+.af-th-date.sun { color: #DC2626 !important; }
+.af-th-dow {
+  font-size: 7px;
+  font-weight: 400;
+  color: #9CA3AF;
+}
+
+.af-table tbody tr {
+  border-bottom: 1px solid #F1F5F9;
+}
+.af-table tbody tr:hover { background: #FAFBFF; }
+
+.af-td-staff {
+  padding: 6px 8px;
+  vertical-align: top;
+  border-right: 1px solid #E5E7EB;
+  background: #FAFBFC;
+  position: sticky;
+  left: 0;
+  z-index: 1;
+}
+.af-staff-name {
+  font-size: 11px;
+  font-weight: 700;
+  color: #1E293B;
+}
+.af-staff-total {
+  font-size: 9px;
+  color: #6B7280;
+}
+.af-td-label {
+  padding: 6px 8px;
+  font-size: 10px;
+  color: #4B5563;
+  white-space: nowrap;
+  border-right: 1px solid #F1F5F9;
+  position: sticky;
+  left: 90px;
+  z-index: 1;
+  background: #fff;
+}
+.af-td-total {
+  padding: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #1E293B;
+  text-align: center;
+  border-right: 1px solid #E5E7EB;
+  background: #F8FAFC;
+}
+.af-td-cell {
+  padding: 6px 4px;
+  font-size: 10px;
+  text-align: center;
+  color: #9CA3AF;
+  font-variant-numeric: tabular-nums;
+}
+.af-td-cell.has-data {
+  color: #1D4ED8;
+  font-weight: 700;
+  background: #EFF6FF;
+}
+
+.af-type-badge {
+  display: inline-block;
+  padding: 1px 7px;
+  border-radius: 10px;
+  font-size: 8px;
+  font-weight: 600;
+}
+.af-type-badge.visit { background: #DBEAFE; color: #1D4ED8; }
+.af-type-badge.phone { background: #D1FAE5; color: #059669; }
+.af-type-badge.mail { background: #FEF3C7; color: #B45309; }

@@ -4,6 +4,7 @@ import Menu from './pages/Menu'
 import JournalNew from './pages/JournalNew'
 import JournalList from './pages/JournalList'
 import ActivityHistory from './pages/ActivityHistory'
+import ActivityFrequency from './pages/ActivityFrequency'
 import Customers from './pages/Customers'
 import Estimates from './pages/Estimates'
 import Sites from './pages/Sites'
@@ -29,10 +30,7 @@ function App() {
 
         {/* 行動 */}
         <Route path="activity" element={<ActivityHistory />} />
-        <Route
-          path="activity/frequency"
-          element={<Placeholder title="行動頻度表" accent="bg-teal-100" />}
-        />
+        <Route path="activity/frequency" element={<ActivityFrequency />} />
 
         {/* メッセージ */}
         <Route
