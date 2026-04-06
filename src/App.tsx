@@ -4,6 +4,10 @@ import Menu from './pages/Menu'
 import JournalNew from './pages/JournalNew'
 import Customers from './pages/Customers'
 import Estimates from './pages/Estimates'
+import Sites from './pages/Sites'
+import Purchases from './pages/Purchases'
+import Partners from './pages/Partners'
+import Invoices from './pages/Invoices'
 import Placeholder from './pages/Placeholder'
 
 function App() {
@@ -57,10 +61,7 @@ function App() {
         />
 
         {/* 現場・受注 */}
-        <Route
-          path="sites"
-          element={<Placeholder title="現場一覧" accent="bg-orange-100" />}
-        />
+        <Route path="sites" element={<Sites />} />
         <Route
           path="sites/reports"
           element={<Placeholder title="完了報告" accent="bg-orange-100" />}
@@ -76,16 +77,13 @@ function App() {
 
         {/* 見積・発注 */}
         <Route path="estimates" element={<Estimates />} />
-        <Route
-          path="purchases"
-          element={<Placeholder title="発注一覧" accent="bg-lime-100" />}
-        />
+        <Route path="purchases" element={<Purchases />} />
+
+        {/* 協力会社 */}
+        <Route path="partners" element={<Partners />} />
 
         {/* 経理 */}
-        <Route
-          path="billing"
-          element={<Placeholder title="請求管理" accent="bg-rose-100" />}
-        />
+        <Route path="billing" element={<Invoices />} />
         <Route
           path="payments"
           element={<Placeholder title="支払管理" accent="bg-pink-100" />}

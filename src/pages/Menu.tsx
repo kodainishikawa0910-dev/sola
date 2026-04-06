@@ -125,7 +125,7 @@ const menuSections: MenuSection[] = [
     dot: '#F59E0B',
     items: [
       { label: '現場一覧', href: '/sites' },
-      { label: '受注一覧', href: '/orders.html' },
+      { label: '受注一覧', href: '/orders' },
       { label: '受注申請一覧', href: '/orders/requests' },
       { label: '完了報告', href: '/sites/reports' },
       { label: '受注キャンセル処理', href: '/orders/cancel' },
@@ -159,7 +159,7 @@ const menuSections: MenuSection[] = [
     title: '請求管理',
     dot: '#22C55E',
     items: [
-      { label: '売上請求書一覧', href: '/billing/invoices' },
+      { label: '売上請求書一覧', href: '/billing' },
       { label: '売上請求書発行', href: '/billing/invoices/new' },
       { label: '売上入金管理', href: '/billing/receipts' },
     ],
