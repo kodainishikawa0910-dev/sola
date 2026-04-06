@@ -11,6 +11,8 @@ import Sites from './pages/Sites'
 import Purchases from './pages/Purchases'
 import Partners from './pages/Partners'
 import Invoices from './pages/Invoices'
+import Orders from './pages/Orders'
+import OrderRequests from './pages/OrderRequests'
 import Placeholder from './pages/Placeholder'
 
 function App() {
@@ -60,14 +62,8 @@ function App() {
           path="sites/reports"
           element={<Placeholder title="完了報告" accent="bg-orange-100" />}
         />
-        <Route
-          path="orders"
-          element={<Placeholder title="受注一覧" accent="bg-amber-100" />}
-        />
-        <Route
-          path="orders/requests"
-          element={<Placeholder title="受注申請一覧" accent="bg-amber-100" />}
-        />
+        <Route path="orders" element={<Orders />} />
+        <Route path="orders/requests" element={<OrderRequests />} />
 
         {/* 見積・発注 */}
         <Route path="estimates" element={<Estimates />} />
