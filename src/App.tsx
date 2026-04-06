@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import RootLayout from './layouts/RootLayout'
 import Menu from './pages/Menu'
 import JournalNew from './pages/JournalNew'
+import JournalList from './pages/JournalList'
 import Customers from './pages/Customers'
 import Estimates from './pages/Estimates'
 import Sites from './pages/Sites'
@@ -22,10 +23,7 @@ function App() {
         <Route path="customers/*" element={<Customers />} />
 
         {/* 日誌 */}
-        <Route
-          path="journal"
-          element={<Placeholder title="日誌一覧" accent="bg-emerald-100" />}
-        />
+        <Route path="journal" element={<JournalList />} />
         <Route path="journal/new" element={<JournalNew />} />
 
         {/* 行動 */}
