@@ -16,6 +16,7 @@ import Settlements from './pages/Settlements'
 import Orders from './pages/Orders'
 import OrderRequests from './pages/OrderRequests'
 import Analytics from './pages/Analytics'
+import Messages from './pages/Messages'
 import Placeholder from './pages/Placeholder'
 
 function App() {
@@ -38,26 +39,7 @@ function App() {
         <Route path="activity/frequency" element={<ActivityFrequency />} />
 
         {/* メッセージ */}
-        <Route
-          path="messages"
-          element={<Placeholder title="受信BOX" accent="bg-indigo-100" />}
-        />
-        <Route
-          path="messages/sent"
-          element={<Placeholder title="送信BOX" accent="bg-indigo-100" />}
-        />
-        <Route
-          path="messages/review"
-          element={<Placeholder title="要確認BOX" accent="bg-red-100" />}
-        />
-        <Route
-          path="messages/new"
-          element={<Placeholder title="新規メッセージ" accent="bg-indigo-100" />}
-        />
-        <Route
-          path="messages/:id/reply"
-          element={<Placeholder title="返信画面" accent="bg-indigo-100" />}
-        />
+        <Route path="messages/*" element={<Messages />} />
 
         {/* 現場・受注 */}
         <Route path="sites" element={<Sites />} />
