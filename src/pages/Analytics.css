@@ -1,0 +1,189 @@
+/* ===== Analytics Page ===== */
+.ana-page {
+  padding: 20px 24px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header */
+.ana-page-header {
+  margin-bottom: 18px;
+}
+.ana-breadcrumb {
+  font-size: 12px;
+  color: #6B7280;
+  margin-bottom: 4px;
+}
+.ana-breadcrumb a {
+  color: #6B7280;
+  text-decoration: none;
+}
+.ana-breadcrumb a:hover {
+  text-decoration: underline;
+}
+.ana-bc-current {
+  color: #111827;
+  font-weight: 600;
+}
+.ana-page-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* Tab bar */
+.ana-tab-bar {
+  display: flex;
+  background: #F1F5F9;
+  border-radius: 8px;
+  padding: 3px;
+  margin-bottom: 16px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  gap: 2px;
+}
+.ana-tab-bar::-webkit-scrollbar {
+  height: 4px;
+}
+.ana-tab-bar::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 2px;
+}
+.ana-tab {
+  flex: 0 0 auto;
+  padding: 7px 14px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #64748B;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.12s;
+}
+.ana-tab.active {
+  background: #fff;
+  color: #111;
+  border: 1px solid #D1D5DB;
+  font-weight: 600;
+}
+.ana-tab:hover:not(.active) {
+  background: rgba(255,255,255,0.5);
+}
+
+/* Content area */
+.ana-content {
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #E5E7EB;
+  padding: 16px;
+}
+
+/* Table wrap */
+.ana-table-wrap {
+  overflow-x: auto;
+}
+.ana-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.ana-table thead th {
+  background: #F8FAFC;
+  border-bottom: 2px solid #E5E7EB;
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 600;
+  color: #374151;
+  white-space: nowrap;
+}
+.ana-table tbody td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #F3F4F6;
+  color: #374151;
+}
+.ana-table tbody tr:hover {
+  background: #F9FAFB;
+}
+
+/* Right-align numbers */
+.ana-num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.ana-th-num {
+  text-align: right !important;
+}
+
+/* Rate colors */
+.ana-rate-green {
+  color: #059669;
+  font-weight: 600;
+}
+.ana-rate-normal {
+  color: #374151;
+}
+.ana-rate-red {
+  color: #DC2626;
+  font-weight: 600;
+}
+
+/* Rank badge */
+.ana-rank {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: 700;
+}
+.ana-rank-1 { background: #FEF3C7; color: #92400E; }
+.ana-rank-2 { background: #E5E7EB; color: #374151; }
+.ana-rank-3 { background: #FED7AA; color: #9A3412; }
+.ana-rank-other { background: #F3F4F6; color: #6B7280; }
+
+/* Summary card row */
+.ana-summary {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.ana-summary-card {
+  background: #F8FAFC;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  padding: 12px 18px;
+  min-width: 140px;
+}
+.ana-summary-label {
+  font-size: 11px;
+  color: #6B7280;
+  margin-bottom: 4px;
+}
+.ana-summary-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+}
+.ana-summary-value.ana-rate-green { color: #059669; }
+
+/* Empty state */
+.ana-empty {
+  text-align: center;
+  padding: 40px;
+  color: #9CA3AF;
+  font-size: 14px;
+}
+
+/* Section subtitle */
+.ana-section-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  margin: 20px 0 10px;
+}

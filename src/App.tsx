@@ -15,6 +15,7 @@ import Payments from './pages/Payments'
 import Settlements from './pages/Settlements'
 import Orders from './pages/Orders'
 import OrderRequests from './pages/OrderRequests'
+import Analytics from './pages/Analytics'
 import Placeholder from './pages/Placeholder'
 
 function App() {
@@ -80,10 +81,7 @@ function App() {
         <Route path="settlements" element={<Settlements />} />
 
         {/* 分析 */}
-        <Route
-          path="analytics"
-          element={<Placeholder title="分析・レポート" accent="bg-slate-200" />}
-        />
+        <Route path="analytics/*" element={<Analytics />} />
 
         <Route
           path="*"
